@@ -1,7 +1,8 @@
+import os
 from unittest import TestCase
 
-import os
-from skimage import io, transform
+from skimage import io
+
 from resnetembedding import ImageEmbedder
 
 
