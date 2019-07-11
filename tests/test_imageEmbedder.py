@@ -16,6 +16,6 @@ class TestImageEmbedder(TestCase):
         # Act
         actual = embedder(image)
 
-        #Assert just 1 record with length
+        # Assert just 1 record with length
         self.assertEqual(actual.shape[0], 1)
         self.assertEqual(len(actual.shape), 2)
