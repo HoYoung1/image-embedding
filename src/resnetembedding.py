@@ -19,13 +19,13 @@ class ImageEmbedder:
         self.model.eval()
 
         with torch.no_grad():
-            img_tensor = self.pre_process_image(image)
+            img_tensor = self._pre_process_image(image)
             img_tensor.to(device=self.device)
             result = self.model(img_tensor)
 
         return result
 
-    def pre_process_image(self, image):
+    def _pre_process_image(self, image):
         # pre-process data
         image = Image.fromarray(image)
         # The min size, as noted in the PyTorch pretrained models doc, is 224 px.
