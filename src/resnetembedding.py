@@ -4,7 +4,7 @@ from PIL import Image
 from torchvision.transforms import transforms
 
 
-class ImageEmbedder:
+class ResnetEmbedder:
 
     def __init__(self, min_img_size_h=214, min_img_size_w=214, device=None, ):
         self.min_img_size_h = min_img_size_h

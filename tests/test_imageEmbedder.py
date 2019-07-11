@@ -3,7 +3,7 @@ from unittest import TestCase
 
 from skimage import io
 
-from resnetembedding import ImageEmbedder
+from resnetembedding import ResnetEmbedder
 
 
 class TestImageEmbedder(TestCase):
@@ -12,7 +12,7 @@ class TestImageEmbedder(TestCase):
         # Arrange
         img_name = os.path.join(os.path.dirname(__file__), "images", "39672681_1302d204d1.jpg")
         image = io.imread(img_name)
-        embedder = ImageEmbedder()
+        embedder = ResnetEmbedder()
 
         # Act
         actual = embedder(image)
