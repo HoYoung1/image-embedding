@@ -1,8 +1,6 @@
 import os
 from unittest import TestCase
 
-import numpy as np
-
 from sm_inference import input_fn
 
 
@@ -17,5 +15,4 @@ class TestInput_fn(TestCase):
         actual = input_fn(image_bytes, "application/binary")
 
         # Assert
-        self.assertTrue(isinstance(actual, np.ndarray))
-        self.assertEqual(len(actual.shape), 3)
+        self.assertEqual(len(actual.shape), 4)
