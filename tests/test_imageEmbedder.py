@@ -10,7 +10,7 @@ class TestImageEmbedder(TestCase):
 
     def test___call__(self):
         # Arrange
-        img_name = os.path.join(os.path.dirname(__file__), "images", "39672681_1302d204d1.jpg")
+        img_name = os.path.join(os.path.dirname(__file__), "images", "AJ_Cook_001.jpg")
         image = io.imread(img_name)
         embedder = ResnetEmbedder()
 
