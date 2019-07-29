@@ -12,7 +12,7 @@ class ResnetEmbedder:
 
         # Set up default device
         self.device = device or ('cuda:0' if torch.cuda.is_available() else 'cpu')
-        self.model = models.resnet18(pretrained=True)
+        self.model = models.resnet152(pretrained=True)
         self.model.to(device=self.device)
 
     def __call__(self, image):
