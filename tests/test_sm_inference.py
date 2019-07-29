@@ -7,7 +7,7 @@ from sm_inference import input_fn
 class TestInput_fn(TestCase):
     def test_input_fn(self):
         # Arrange
-        img_name = os.path.join(os.path.dirname(__file__), "images", "George_W_Bush_0517.jpg")
+        img_name = os.path.join(os.path.dirname(__file__), "imagesLFW", "George_W_Bush_0517.jpg")
         with open(img_name, "rb") as f:
             image_bytes = f.read()
 
