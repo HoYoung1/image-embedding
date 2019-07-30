@@ -11,8 +11,7 @@ class EuclideanPairwiseDistance():
 
     def __call__(self, x, y=None):
         """
-
-
+Computes pairwise euclidean distance
         :param x: n x f float matrix  ( n samples and f features)
         :param y: optional y matrix
         :return: pair wise euclidean distance
