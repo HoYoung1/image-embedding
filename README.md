@@ -3,6 +3,13 @@
 # Image embedding
 Feature extraction for images.. See [ImageEmbedding.ipynb](ImageEmbedding.ipynb) for more details
 
+
+## Run
+
+```bash
+python src/main_evaluate.py tests/imagesMarket1501
+```
+
 ## Acknowledgements
 
 - Gary B. Huang, Manu Ramesh, Tamara Berg, and Erik Learned-Miller.
@@ -13,3 +20,5 @@ University of Massachusetts, Amherst, Technical Report 07-49, October, 2007.
 D. S. Cheng, M. Cristani, M. Stoppa, L. Bazzani, V. Murino
 In British Machine Vision Conference (BMVC), 2011 
 CAVIAR4REID dataset / video / bibtex
+
+- Liang Zheng, Liyue Shen, Lu Tian, Shengjin Wang, Jingdong Wang, Qi Tian, "Scalable Person Re-identification: A Benchmark", IEEE International Conference on Computer Vision (ICCV), 2015.
