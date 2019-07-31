@@ -20,7 +20,8 @@ def run(images_dir):
     class_person = []
     for person_img, target in images_dataset:
         embedder = ResnetEmbedder()
-        embedding = embedder(person_img).data.numpy()[0]
+        # TODO : Fix this numpy stuff.. this is really bad
+        embedding = embedder(person_img).to(device="cpu").data.numpy()[0]
         embeddings.append(embedding)
         class_person.append(target)
 
