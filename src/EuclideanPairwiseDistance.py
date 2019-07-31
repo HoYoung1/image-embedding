@@ -21,8 +21,8 @@ Computes pairwise euclidean distance
         if y is None:
             y = x
 
-        result = x.unsqueeze(1)
-        result = torch.pow(result - y, 2)
+        x = x.unsqueeze(1)
+        result = torch.pow(x - y, 2)
         result = torch.sqrt(result.sum(dim=2))
 
         return result
