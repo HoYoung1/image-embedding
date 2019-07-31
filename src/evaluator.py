@@ -23,10 +23,6 @@ class Evaluator:
         embeddings = torch.stack(embeddings)
         class_person = torch.stack(class_person)
 
-        # clean up gpu memory
-        del self.model
-        torch.cuda.empty_cache()
-
         # Compute pairwise
         pairwise_distance = self.distance_metric(embeddings)
 
