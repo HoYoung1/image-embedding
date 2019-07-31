@@ -24,7 +24,7 @@ class CMCScore:
         # map item index to target class
         map_id_to_class = lambda x: target_label[x]
         map_id_to_class_vec = np.vectorize(map_id_to_class)
-        rank_k_label = map_id_to_class_vec(rank_k)
+        rank_k_label = map_id_to_class_vec(rank_k.cpu())
 
         # Compute accuracy
         correct = 0
