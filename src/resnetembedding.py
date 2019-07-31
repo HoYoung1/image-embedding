@@ -20,7 +20,7 @@ class ResnetEmbedder:
 
         with torch.no_grad():
             img_tensor = self._pre_process_image(image)
-            img_tensor.to(device=self.device)
+            img_tensor = img_tensor.to(device=self.device)
             result = self.model(img_tensor)
 
         return result
