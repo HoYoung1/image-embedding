@@ -1,7 +1,7 @@
 import os
 from unittest import TestCase
 
-from skimage import io
+import torch
 
 from resnetembedding import ResnetEmbedder
 
@@ -11,12 +11,12 @@ class TestImageEmbedder(TestCase):
     def test___call__(self):
         # Arrange
         img_name = os.path.join(os.path.dirname(__file__), "imagesLFW", "AJ_Cook_001.jpg")
-        image = io.imread(img_name)
+        batch_size = 32
         embedder = ResnetEmbedder()
+        input = torch.rand((batch_size, 3, 224, 224))
 
         # Act
-        actual = embedder(image)
+        actual = list(embedder(input))
 
-        # Assert just 1 record with length
-        self.assertEqual(actual.shape[0], 1)
-        self.assertEqual(len(actual.shape), 2)
+        # Assert just n record with length
+        self.assertEqual(input.shape[0], len(actual))

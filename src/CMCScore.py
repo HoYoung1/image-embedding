@@ -14,6 +14,7 @@ Definition: https://www.nist.gov/sites/default/files/documents/2016/12/06/12_ros
 class CMCScore:
 
     def accuracy_at_top_k(self, pairwise_distance_matrix, target_label, k):
+        target_label = target_label.numpy()
         # Get the index matrix of the top k nearest neighbours
         rank_k = torch.topk(pairwise_distance_matrix, k=k + 1, dim=1, largest=False)[1]
 

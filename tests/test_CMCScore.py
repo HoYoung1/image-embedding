@@ -13,7 +13,7 @@ class TestCMCScore(TestCase):
         expected = 66.67
 
         # Act
-        actual = sut.score(pairwise_distance, [2, 1, 2], 2)
+        actual = sut.score(pairwise_distance, torch.tensor([2, 1, 2]), 2)
 
         # Assert
         self.assertEqual(round(actual, 2), expected)

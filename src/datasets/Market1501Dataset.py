@@ -1,7 +1,9 @@
 import os
 
+from PIL import Image
 from skimage import io
 from torch.utils.data import Dataset
+from torchvision.transforms import transforms
 
 """
 Market1501 dataset
@@ -10,7 +12,9 @@ Market1501 dataset
 
 class Market1501Dataset(Dataset):
 
-    def __init__(self, raw_directory):
+    def __init__(self, raw_directory, min_img_size_h=214, min_img_size_w=214):
+        self.min_img_size_w = min_img_size_w
+        self.min_img_size_h = min_img_size_h
         self.raw_directory = raw_directory
 
         self._len = None
@@ -30,4 +34,18 @@ class Market1501Dataset(Dataset):
 
     def __getitem__(self, index):
         target = self._zero_indexed_labels[self._target_raw_labels[index]]
-        return io.imread(self._files[index]), target
+        return self._pre_process_image(io.imread(self._files[index])), target
+
+    def _pre_process_image(self, image):
+        # pre-process data
+        image = Image.fromarray(image)
+        # The min size, as noted in the PyTorch pretrained models doc, is 224 px.
+        transform_pipeline = transforms.Compose([transforms.Resize((self.min_img_size_h, self.min_img_size_w)),
+                                                 transforms.ToTensor(),
+                                                 transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                                                                      # torch image: C X H X W
+                                                                      std=[0.229, 0.224, 0.225])])
+        img_tensor = transform_pipeline(image)
+        # Add batch [N, C, H, W]
+        # img_tensor = img.unsqueeze(0)
+        return img_tensor

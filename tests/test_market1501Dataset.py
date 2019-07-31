@@ -27,7 +27,6 @@ class TestMarket1501Dataset(TestCase):
 
         # Act
         actual_items = [sut[i][1] for i in range(total_images)]
-        print(actual_items)
 
         # Assert
         self.assertEqual(expected_classes - 1, max(actual_items),
