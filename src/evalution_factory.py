@@ -10,7 +10,7 @@ class EvaluationFactory:
         model = ResnetEmbedder()
         distance_metric = EuclideanPairwiseDistance()
         scorer = CMCScore()
-        k_threshold = 1
+        k_threshold = 5
 
         evaluator = Evaluator(model, distance_metric, scorer, k_threshold=k_threshold)
 
