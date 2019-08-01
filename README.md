@@ -10,7 +10,7 @@ Feature extraction for images.. See [ImageEmbedding.ipynb](ImageEmbedding.ipynb)
 ## Run
 
 ```bash
-python src/main_evaluate.py tests/imagesMarket1501
+python src/main_evaluate.py tests/imagesCaviar
 ```
 
 ## Acknowledgements
