@@ -4,6 +4,9 @@
 Feature extraction for images.. See [ImageEmbedding.ipynb](ImageEmbedding.ipynb) for more details
 
 
+## Datasets
+- Caviar dataset - https://lorisbaz.github.io/caviar4reid.html 
+
 ## Run
 
 ```bash
