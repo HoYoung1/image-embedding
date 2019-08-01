@@ -5,7 +5,10 @@ Feature extraction for images.. See [ImageEmbedding.ipynb](ImageEmbedding.ipynb)
 
 
 ## Datasets
-- Caviar dataset - https://lorisbaz.github.io/caviar4reid.html 
+- [Caviar dataset](https://lorisbaz.github.io/caviar4reid.html)
+
+## Benchmarks
+-  [A Systematic Evaluation and Benchmark for Person Re-Identification: Features, Metrics, and Datasets](https://arxiv.org/pdf/1605.09653.pdf)
 
 ## Run
 
