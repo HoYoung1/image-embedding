@@ -2,7 +2,7 @@ import argparse
 import os
 import sys
 
-from datasets.Market1501Dataset import Market1501Dataset
+from dataset_factory import DatasetFactory
 from evalution_factory import EvaluationFactory
 
 sys.path.append(os.path.abspath('./src'))
@@ -17,7 +17,7 @@ if __name__ == '__main__':
     print("Runnning...")
 
     evaluator = EvaluationFactory().get_evaluator()
-    dataset = Market1501Dataset(args.rawimagesdir)
+    dataset = DatasetFactory().get(args.rawimagesdir)
     result = evaluator.evaluate(dataset)
 
     print("Dataset {} , Result : {} ".format(type(dataset), result))
