@@ -7,7 +7,7 @@ class ResnetEmbedder:
     def __init__(self, device=None):
         # Set up default device gpu or cpu
         self.device = device or ('cuda:0' if torch.cuda.is_available() else 'cpu')
-        self.model = models.resnet18(pretrained=True)
+        self.model = models.resnet152(pretrained=True)
         # Copy model to device
         self.model.to(device=self.device)
 
