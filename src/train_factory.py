@@ -21,8 +21,7 @@ class TrainFactory:
         trainer = Train(patience_epochs=self.patience_epochs, early_stopping=self.early_stopping)
         model = ModelResnet(n_classes=train_dataset.num_classes)
         optimiser = SGD(lr=self.learning_rate, params=model.parameters())
-        train_pipeline = TrainPipeline(epochs=self.epochs,
-                                       batch_size=self.batch_size,
+        train_pipeline = TrainPipeline(batch_size=self.batch_size,
                                        optimiser=optimiser,
                                        trainer=trainer,
                                        num_workers=self.num_workers,
