@@ -1,7 +1,9 @@
 import torch
 
+from evaluator_base import EvaluatorBase
 
-class Evaluator:
+
+class Evaluator(EvaluatorBase):
     def __init__(self, model, distance_measurer, scorer, k_threshold=1):
         self.k_threshold = k_threshold
         self.model = model
