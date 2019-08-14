@@ -2,15 +2,20 @@ import os
 
 from PIL import Image
 from skimage import io
-from torch.utils.data import Dataset
 from torchvision.transforms import transforms
+
+from datasets.CustomDataset import CustomDataset
 
 """
 Market1501 dataset
 """
 
 
-class Market1501Dataset(Dataset):
+class Market1501Dataset(CustomDataset):
+
+    @property
+    def num_classes(self):
+        return len(self._zero_indexed_labels)
 
     def __init__(self, raw_directory, min_img_size_h=214, min_img_size_w=214):
         self.min_img_size_w = min_img_size_w
