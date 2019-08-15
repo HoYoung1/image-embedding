@@ -54,7 +54,9 @@ class SageMakerEndpointTastSet(TaskSet):
             Accept='application/json'
         )
 
-        # body = response["Body"].read()
+        body = response["Body"].read()
+
+        print(body)
 
 
 class SageMakerEndpointLocust(HttpLocust):
