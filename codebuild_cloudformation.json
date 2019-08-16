@@ -27,6 +27,11 @@
     "dockerImageRepository": {
       "Description": "The docker image repo to push the image to",
       "Type": "String"
+    },
+    "SageMakerPytorchBaseImageAccount": {
+      "Description": "The offical SageMaker pytorch docker image repo account to pull base image from",
+      "Type": "String",
+      "Default": "520713654638"
     }
   },
   "Mappings": {},
@@ -197,6 +202,53 @@
                           {
                             "Ref": "dockerImageRepository"
                           }
+                        ]
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "ecr:GetAuthorizationToken"
+                  ],
+                  "Resource": "*"
+                }
+              ]
+            }
+          },
+          {
+            "PolicyName": "ECRSageMakerImage",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "ecr:DescribeRepositories",
+                    "ecr:ListImages",
+                    "ecr:BatchCheckLayerAvailability",
+                    "ecr:GetLifecyclePolicyPreview",
+                    "ecr:DescribeImages",
+                    "ecr:GetLifecyclePolicy",
+                    "ecr:ListTagsForResource",
+                    "ecr:BatchGetImage",
+                    "ecr:GetDownloadUrlForLayer"
+                  ],
+                  "Resource": [
+                    {
+                      "Fn::Join": [
+                        "",
+                        [
+                          "arn:aws:ecr:",
+                          {
+                            "Ref": "AWS::Region"
+                          },
+                          ":",
+                          {
+                            "Ref": "SageMakerPytorchBaseImageAccount"
+                          },
+                          ":repository/*"
                         ]
                       ]
                     }
