@@ -1,7 +1,7 @@
 ARG REGION=us-west-2
 ARG DEVICE=gpu
-
-FROM 520713654638.dkr.ecr.$REGION.amazonaws.com/sagemaker-pytorch:1.0.0-${DEVICE}-py3
+ARG AWS_PYTORCH_SAGEMAKER_ECR_ACCOUNT=520713654638
+FROM ${AWS_PYTORCH_SAGEMAKER_ECR_ACCOUNT}.dkr.ecr.$REGION.amazonaws.com/sagemaker-pytorch:1.0.0-${DEVICE}-py3
 
 ENV PATH="/opt/ml/code:${PATH}"
 
