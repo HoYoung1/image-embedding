@@ -44,7 +44,7 @@ phases:
 
       # Build docker image for gpu
       - export DEVICE=gpu
-      - export VERSION_DEVICE_TAG=${VERSION_TAG}-${DEVICE}-${PYTORCH_VERSION}
+      - export VERSION_DEVICE_TAG=${DEVICE}-${PYTORCH_VERSION}-${VERSION_TAG}
       # Get the login command from ECR in order to pull down the SageMaker PyTorch image
       - $(aws ecr get-login --registry-ids $AWS_PYTORCH_ECR_ACCOUNT --region $AWS_DEFAULT_REGION --no-include-email)
       - docker build -t $IMAGE_REPO_NAME:$LATEST_TAG .  --build-arg REGION=$AWS_DEFAULT_REGION  --build-arg DEVICE=$DEVICE --build-arg AWS_PYTORCH_SAGEMAKER_ECR_ACCOUNT=$AWS_PYTORCH_ECR_ACCOUNT
@@ -59,7 +59,7 @@ phases:
 
       # Build docker image for cpu
       - export DEVICE=cpu
-      - export VERSION_DEVICE_TAG=${VERSION_TAG}-${DEVICE}-${PYTORCH_VERSION}
+      - export VERSION_DEVICE_TAG=${DEVICE}-${PYTORCH_VERSION}-${VERSION_TAG}
       # Get the login command from ECR in order to pull down the SageMaker PyTorch image
       - $(aws ecr get-login --registry-ids $AWS_PYTORCH_ECR_ACCOUNT --region $AWS_DEFAULT_REGION --no-include-email)
       - docker build -t $IMAGE_REPO_NAME:$LATEST_TAG .  --build-arg REGION=$AWS_DEFAULT_REGION  --build-arg DEVICE=$DEVICE --build-arg AWS_PYTORCH_SAGEMAKER_ECR_ACCOUNT=$AWS_PYTORCH_ECR_ACCOUNT
