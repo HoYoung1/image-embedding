@@ -15,6 +15,7 @@ phases:
       - export PYTORCH_VERSION=1.0.0
       # AWS cli version to login into ecr. This needs to be compatible with the version of boto3 in the requirements file
       - export awscli_version=1.16.35
+      - export AWS_PYTORCH_ECR_ACCOUNT=520713654638
 
 
   build:
@@ -44,7 +45,8 @@ phases:
       # Build docker image for gpu
       - export DEVICE=gpu
       - export IMAGE_REPO_NAME=${IMAGE_REPO_BASE_NAME}-${DEVICE}-${PYTORCH_VERSION}
-      - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
+      # Get the login command from ECR in order to pull down the SageMaker PyTorch image
+      - $(aws ecr get-login --registry-ids $AWS_PYTORCH_ECR_ACCOUNT --region ${region} --no-include-email)
       - docker build -t $IMAGE_REPO_NAME:$LATEST_TAG .  --build-arg REGION=$AWS_DEFAULT_REGION  --build-arg DEVICE=$DEVICE
       - docker tag $IMAGE_REPO_NAME:$LATEST_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$LATEST_TAG
       - docker tag $IMAGE_REPO_NAME:$LATEST_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$VERSION_TAG
@@ -56,19 +58,18 @@ phases:
 
 
       # Build docker image for cpu
-       # Push Docker Image
-      - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
+      # Get the login command from ECR in order to pull down the SageMaker PyTorch image
+      - $(aws ecr get-login --registry-ids $AWS_PYTORCH_ECR_ACCOUNT --region ${region} --no-include-email)
       - export DEVICE=cpu
       - export IMAGE_REPO_NAME=${IMAGE_REPO_BASE_NAME}-${DEVICE}-${PYTORCH_VERSION}
       - docker build -t $IMAGE_REPO_NAME:$LATEST_TAG .  --build-arg REGION=$AWS_DEFAULT_REGION  --build-arg DEVICE=$DEVICE
       - docker tag $IMAGE_REPO_NAME:$LATEST_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$LATEST_TAG
       - docker tag $IMAGE_REPO_NAME:$LATEST_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$VERSION_TAG
-
+      # Push Docker Image
+      - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
       - echo Pushing the Docker image...
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$LATEST_TAG
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$VERSION_TAG
-
-
       # Optionally copy source code to s3
       - mkdir $CODEBUILD_SRC_DIR/buildoutput
       - cd $CODEBUILD_SRC_DIR/src && zip -r ../buildoutput/source.zip .
