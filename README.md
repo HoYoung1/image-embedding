@@ -40,7 +40,7 @@ Feature extraction for images.. See [ImageEmbedding.ipynb](ImageEmbedding.ipynb)
 2. Evalute market 1501 dataset . 
     ```bash
     export PYTHONPATH=src
-    python src/main_evaluate.py Market1501 tests/imagesMarket1501
+    python src/experiment_train.py Market1501 --traindir tests/imagesCaviar --valdir tests/imagesCaviar --outdir /tmp --epochs 10 --batchsize 32
     ```
 
 
