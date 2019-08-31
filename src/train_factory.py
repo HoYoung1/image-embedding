@@ -1,4 +1,4 @@
-from torch.nn import NLLLoss
+from torch import nn
 from torch.optim import SGD
 
 from ModelResnet import ModelResnet
@@ -25,7 +25,7 @@ class TrainFactory:
                                        optimiser=optimiser,
                                        trainer=trainer,
                                        num_workers=self.num_workers,
-                                       loss_func=NLLLoss(),
+                                       loss_func=nn.CrossEntropyLoss(),
                                        model=model)
 
         return train_pipeline

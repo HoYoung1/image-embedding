@@ -1,4 +1,3 @@
-import torch.nn.functional as F
 from torch import nn
 from torchvision import models
 
@@ -17,5 +16,4 @@ class ModelResnet(nn.Module):
 
     def forward(self, input):
         fc_out = self.model(input)
-        log_probs = F.log_softmax(fc_out, dim=1)
-        return log_probs
+        return fc_out
