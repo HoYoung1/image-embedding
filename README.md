@@ -1,4 +1,5 @@
-container
+[![Build Status](https://travis-ci.org/elangovana/image-embedding.svg?branch=master)](https://travis-ci.org/elangovana/image-embedding)
+
 # Image embedding
 Feature extraction for images.. See [ImageEmbedding.ipynb](ImageEmbedding.ipynb) for more details
 
@@ -9,8 +10,9 @@ Feature extraction for images.. See [ImageEmbedding.ipynb](ImageEmbedding.ipynb)
 ## Benchmarks
 -  [A Systematic Evaluation and Benchmark for Person Re-Identification: Features, Metrics, and Datasets](https://arxiv.org/pdf/1605.09653.pdf)
 
-## Run
-###. Use pretrained model to evaluate dataset
+
+
+## Use pretrained model to evaluate dataset
 
 **Note** The images in the tests folder are sample only. Please download the full dataset from the respective public database
 
@@ -25,6 +27,22 @@ Feature extraction for images.. See [ImageEmbedding.ipynb](ImageEmbedding.ipynb)
     export PYTHONPATH=src
     python src/main_evaluate.py Market1501 tests/imagesMarket1501
     ```
+
+## Custom training using resnet
+
+
+1. Evalute caviar dataset
+    ```bash
+    export PYTHONPATH=src
+    python src/experiment_train.py Caviar --traindir tests/imagesCaviar --valdir tests/imagesCaviar --outdir /tmp --epochs 10 --batchsize 32
+    ```
+
+2. Evalute market 1501 dataset . 
+    ```bash
+    export PYTHONPATH=src
+    python src/main_evaluate.py Market1501 tests/imagesMarket1501
+    ```
+
 
 
 ## Acknowledgements

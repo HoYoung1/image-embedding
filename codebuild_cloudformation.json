@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "Deploys code pipeline to build recommendation",
+  "Description": "Deploys code pipeline",
   "Metadata": {},
   "Parameters": {
     "codeBuildProjectName": {
@@ -289,3 +289,4 @@
   },
   "Outputs": {}
 }
+

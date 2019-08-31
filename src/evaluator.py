@@ -1,16 +1,20 @@
 import torch
+from torch.utils.data import DataLoader
 
 from evaluator_base import EvaluatorBase
 
 
 class Evaluator(EvaluatorBase):
-    def __init__(self, model, distance_measurer, scorer, k_threshold=1):
+    def __init__(self, model, distance_measurer, scorer, k_threshold=1, batch_size=32):
+        self.batch_size = batch_size
         self.k_threshold = k_threshold
         self.model = model
         self.distance_metric = distance_measurer
         self.scorer = scorer
 
-    def evaluate(self, dataloader):
+    def evaluate(self, dataset):
+        dataloader = DataLoader(dataset, batch_size=self.batch_size, shuffle=False)
+
         embeddings = []
         class_person = []
 

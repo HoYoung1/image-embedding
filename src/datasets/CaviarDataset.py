@@ -49,3 +49,7 @@ class CaviarDataset(Dataset):
         # Add batch [N, C, H, W]
         # img_tensor = img.unsqueeze(0)
         return img_tensor
+
+    @property
+    def num_classes(self):
+        return len(self._zero_indexed_labels)
