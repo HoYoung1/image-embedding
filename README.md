@@ -12,6 +12,18 @@ Feature extraction for images.. See [ImageEmbedding.ipynb](ImageEmbedding.ipynb)
 -  [A Systematic Evaluation and Benchmark for Person Re-Identification: Features, Metrics, and Datasets](https://arxiv.org/pdf/1605.09653.pdf)
 
 
+## Prerequisites
+
+1. Python 3.6
+2. Install virtual env
+
+## Set up
+
+1. Install dependencies
+    ```bash
+     pip install -r src/requirements_dev.txt
+    ```
+    
 
 ## Use pretrained model to evaluate dataset
 
