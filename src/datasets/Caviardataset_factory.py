@@ -3,7 +3,11 @@ from torch.utils.data import DataLoader
 from datasets.CaviarDataset import CaviarDataset
 
 
-class DatasetFactory:
+class CaviarDatasetFactory:
+
+    @staticmethod
+    def dataset_name():
+        return "Caviar"
 
     def get(self, images_dir):
         batch_size = 32
