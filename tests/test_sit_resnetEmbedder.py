@@ -5,7 +5,7 @@ import torch
 from resnetembedding import ResnetEmbedder
 
 
-class TestResnetEmbedder(TestCase):
+class TestSitResnetEmbedder(TestCase):
 
     def test___call__(self):
         # Arrange
