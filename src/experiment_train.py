@@ -23,7 +23,6 @@ class ExperimentTrain:
         factory = TrainFactory(num_workers=1, epochs=epochs, batch_size=batch_size, early_stopping=True,
                                patience_epochs=2)
         pipeline = factory.get(train_dataset)
-        pipeline.run(train_dataset, val_dataset, out_dir)
 
         # Start training
         pipeline.run(train_dataset, val_dataset, out_dir)
