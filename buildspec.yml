@@ -10,8 +10,6 @@ phases:
     ##################################
     # Any set up / config goes here
     ##################################
-      - pip install pytest==3.6.3
-      - pip install pyflakes==2.0.0
        ## CONFIGURE THIS: Repo name, please make sure this repo exists in ECR
       - export projectname=image-embedding
       - export IMAGE_REPO_NAME=image-embedding
@@ -25,11 +23,7 @@ phases:
     commands:
       # Run Tests
       - echo Building project $projectname
-      - pip install -r src/requirements_dev.txt
-      - pip install -r tests/requirements.txt
-      - pyflakes ./**/*.py
-      - export PYTHONPATH=./src
-      - pytest
+
 
       ## Tests passed, so build docker
       - echo Building the Docker image...
@@ -73,12 +67,3 @@ phases:
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$VERSION_DEVICE_TAG
 
 
-      # Optionally copy source code to s3
-      - mkdir $CODEBUILD_SRC_DIR/buildoutput
-      - cd $CODEBUILD_SRC_DIR/src && zip -r ../buildoutput/source.zip .
-
-artifacts:
-  files:
-    - '**/*'
-  base-directory: buildoutput
-  name: ${projectname}_$(date +%Y%m%d%H%M%S)_$CODEBUILD_SOURCE_VERSION
