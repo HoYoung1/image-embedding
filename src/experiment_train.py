@@ -31,9 +31,9 @@ class ExperimentTrain:
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("dataset",
+    parser.add_argument("--dataset",
                         help="The type of dataset",
-                        choices=DatasetFactory.get_datasets())
+                        choices=DatasetFactory.get_datasets(), required=True)
 
     parser.add_argument("--traindir",
                         help="The input train  data", default=os.environ.get("SM_CHANNEL_TRAIN", None))

@@ -32,13 +32,13 @@ Feature extraction for images.. See [ImageEmbedding.ipynb](ImageEmbedding.ipynb)
 1. Evalute caviar dataset
     ```bash
     export PYTHONPATH=src
-    python src/main_evaluate.py Caviar tests/imagesCaviar
+    python src/main_evaluate.py --dataset Caviar tests/imagesCaviar
     ```
 
 2. Evalute market 1501 dataset . 
     ```bash
     export PYTHONPATH=src
-    python src/main_evaluate.py Market1501 tests/imagesMarket1501
+    python src/main_evaluate.py --dataset Market1501 tests/imagesMarket1501
     ```
 
 ## Custom training using resnet
