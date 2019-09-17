@@ -1,3 +1,4 @@
+import logging
 import os
 
 from PIL import Image
@@ -23,7 +24,7 @@ class Market1501Dataset(CustomDataset):
         self.raw_directory = raw_directory
 
         self._len = None
-        self._files = [os.path.join(self.raw_directory, f) for f in os.listdir(self.raw_directory)]
+        self._files = [os.path.join(self.raw_directory, f) for f in os.listdir(self.raw_directory) if f.endswith("jpg")]
 
         # The market 1501 dataset files have the naming convention target_camerasite_..., e.g. 1038_c2s2_131202_03.jpeg
         self._target_raw_labels = [os.path.basename(f).split("_")[0] for f in self._files]
@@ -37,8 +38,13 @@ class Market1501Dataset(CustomDataset):
 
         return self._len
 
+    @property
+    def logger(self):
+        return logging.getLogger(__name__)
+
     def __getitem__(self, index):
         target = self._zero_indexed_labels[self._target_raw_labels[index]]
+        self.logger.debug("preprocessing imaage {}".format(self._files[index]))
         return self._pre_process_image(io.imread(self._files[index])), target
 
     def _pre_process_image(self, image):
