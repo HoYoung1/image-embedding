@@ -12,7 +12,8 @@ class ExperimentTrain:
     def __init__(self):
         pass
 
-    def run(self, dataset_type, train_dir, val_dir, out_dir, batch_size=32, epochs=10, **kwargs):
+    def run(self, dataset_type, train_dir, val_dir, out_dir, batch_size=32, epochs=10, patience_epoch=2,
+            additional_args=None):
         # Set up dataset
         datasetfactory = DatasetFactory.get_datasetfactory(dataset_type)
 
@@ -20,8 +21,8 @@ class ExperimentTrain:
         val_dataset = datasetfactory.get(val_dir)
 
         # Get trainpipeline
-        factory = TrainFactory(num_workers=1, epochs=epochs, batch_size=batch_size, early_stopping=True,
-                               patience_epochs=2)
+        factory = TrainFactory(num_workers=None, epochs=epochs, batch_size=batch_size, early_stopping=True,
+                               patience_epochs=patience_epoch, additional_args=additional_args)
         pipeline = factory.get(train_dataset)
 
         # Start training
@@ -46,6 +47,8 @@ if __name__ == '__main__':
 
     parser.add_argument("--epochs", help="The number of epochs", type=int, default=10)
 
+    parser.add_argument("--patience", help="The number of patience epochs", type=int, default=10)
+
     parser.add_argument("--log-level", help="Log level", default="INFO", choices={"INFO", "WARN", "DEBUG", "ERROR"})
 
     args = parser.parse_args()
@@ -61,4 +64,5 @@ if __name__ == '__main__':
                           args.valdir,
                           args.outdir,
                           args.batchsize,
-                          args.epochs)
+                          args.epochs,
+                          args.patience)
