@@ -156,7 +156,6 @@ class Train:
         model.eval()
 
         total_loss = 0
-        n_batches = 0
 
         # No grad
         predicted_items = []
@@ -183,11 +182,10 @@ class Train:
                 total_items += predicted_item.shape[0]
                 predicted_items.extend(predicted_item.tolist())
 
-        average_loss = total_loss
         accuracy = (total_correct.float() * 100.0 / total_items).item()
         self._print_confusion_matrix(target_items, predicted_items, "Validation ")
 
-        return average_loss, accuracy
+        return total_loss, accuracy
 
     @staticmethod
     def _print_confusion_matrix(y_actual, y_pred, title):
