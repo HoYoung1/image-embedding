@@ -60,9 +60,9 @@ class Train:
 
         model.to(device=self.device)
         best_loss = None
-
+        best_score = None
         patience = 0
-        previous_loss = None
+
         result_logs = []
 
         for e in range(self.epochs):
@@ -118,9 +118,20 @@ class Train:
             val_loss, val_accuracy = self._compute_validation_loss(val_data, model, loss_func)
 
             # Save snapshots
-            if best_loss is None or val_loss < best_loss:
-                self.logger.info("Snapshotting as current loss {} is < previous best {}".format(val_loss, best_loss))
-                self.snapshotter.save(model, output_dir=output_dir, prefix="snapshot_lowest_loss_")
+            if best_score is None or val_accuracy > best_score:
+                self.logger.info(
+                    "Snapshotting as current score {} is > previous best {}".format(val_accuracy, best_score))
+                self.snapshotter.save(model, output_dir=output_dir, prefix="snapshot_")
+                best_score = val_accuracy
+                best_loss = val_loss
+                # Reset patience if loss decreases
+                patience = 0
+            # score is the same but lower loss
+            elif val_accuracy == best_score and best_loss is not None and val_loss < best_loss:
+                self.logger.info(
+                    "Snapshotting as current loss {} is < previous best {} for score {}".format(val_loss, best_loss,
+                                                                                                val_accuracy))
+                self.snapshotter.save(model, output_dir=output_dir, prefix="snapshot_")
                 best_loss = val_loss
                 # Reset patience if loss decreases
                 patience = 0
