@@ -2,7 +2,7 @@ import logging
 import os
 
 from torch import nn
-from torch.optim import SGD
+from torch.optim import Adam
 
 from ModelResnet import ModelResnet
 from train import Train
@@ -39,7 +39,8 @@ class TrainFactory:
     def get(self, train_dataset):
         trainer = Train(patience_epochs=self.patience_epochs, early_stopping=self.early_stopping, epochs=self.epochs)
         model = ModelResnet(n_classes=train_dataset.num_classes)
-        optimiser = SGD(lr=self.learning_rate, params=model.parameters())
+        # optimiser = SGD(lr=self.learning_rate, params=model.parameters())
+        optimiser = Adam(lr=self.learning_rate, params=model.parameters())
         train_pipeline = TrainPipeline(batch_size=self.batch_size,
                                        optimiser=optimiser,
                                        trainer=trainer,
