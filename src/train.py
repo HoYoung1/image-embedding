@@ -141,6 +141,8 @@ class Train:
 
             print("###score: train_loss### {}".format(train_loss))
             print("###score: val_loss### {}".format(val_loss))
+            print("###score: val_loss_std### {}".format(val_loss_std))
+            print("###score: train_loss_std### {}".format(train_loss_std))
             print("###score: train_accuracy### {}".format(train_accuracy))
             print("###score: val_accuracy### {}".format(val_accuracy))
             # TODO: ADD F-SCORE
