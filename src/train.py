@@ -61,6 +61,7 @@ class Train:
         model.to(device=self.device)
         best_loss = None
         best_score = None
+
         patience = 0
 
         result_logs = []
@@ -168,6 +169,7 @@ class Train:
             else:
                 self.logger.info("Patience is {}".format(patience))
 
+        self.logger.info("The best val score is {}".format(best_score))
         self.results_writer.dump_object(result_logs, output_dir, "epochs_loss")
 
     def _compute_validation_loss(self, val_data, model, loss_func):
