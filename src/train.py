@@ -70,8 +70,7 @@ class Train:
             predicted_items = []
             target_items = []
 
-            n_batches = 0
-            train_total_loss = 0
+            train_losses = []
             total_correct = 0
             total_items = 0
 
@@ -90,7 +89,7 @@ class Train:
                 # Forward pass
                 predicted_prob = model(b_x)
                 loss = loss_func(predicted_prob, target)
-                train_total_loss += loss.item()
+                train_losses.append(loss.item())
 
                 # Backward
                 optimiser.zero_grad()
@@ -108,14 +107,15 @@ class Train:
 
                 self.logger.debug(
                     "Batch {}/{}, total correct {}. loss {}".format(i, e, (correct * 100 / len), loss.item()))
-
-            train_loss = train_total_loss
+            train_losses = torch.Tensor(train_losses)
+            train_loss, train_loss_mean, train_loss_std = train_losses.sum().item(), train_losses.mean().item(), train_losses.std().item()
             train_accuracy = (total_correct.float() * 100.0 / total_items).item()
             # Train confusion matrix
             self._print_confusion_matrix(target_items, predicted_items, "Train")
 
             # Validation loss
-            val_loss, val_accuracy = self._compute_validation_loss(val_data, model, loss_func)
+            val_loss, val_loss_mean, val_loss_std, val_accuracy = self._compute_validation_loss(val_data, model,
+                                                                                                loss_func)
 
             # Save snapshots
             if best_score is None or val_accuracy > best_score:
@@ -148,11 +148,17 @@ class Train:
             # print("###score: val_f_score### {}".format(""))
 
             self.logger.info(
-                "epoch: {}, train_loss {}, val_loss {}, train_accuracy {}, val_accuracy {}".format(e, train_loss,
-                                                                                                   val_loss,
-                                                                                                   train_accuracy,
-                                                                                                   val_accuracy))
-            result_logs.append([e, train_loss, val_loss, train_accuracy, val_accuracy])
+                "epoch: {}, train_loss {}, val_loss {}, val_loss_mean {}, train_loss_mean {}, val_loss_std {}, train_loss_std {}, train_accuracy {}, val_accuracy {}".format(
+                    e, train_loss,
+                    val_loss,
+                    val_loss_mean, train_loss_mean, val_loss_std, train_loss_std,
+                    train_accuracy,
+                    val_accuracy))
+            result_logs.append([e, train_loss,
+                                val_loss,
+                                val_loss_mean, train_loss_mean, val_loss_std, train_loss_std,
+                                train_accuracy,
+                                val_accuracy])
 
             if self.early_stopping and patience > self.patience_epochs:
                 self.logger.info("No decrease in loss for {} epochs and hence stopping".format(self.patience_epochs))
@@ -166,7 +172,7 @@ class Train:
         # Model Eval mode
         model.eval()
 
-        total_loss = 0
+        losses = []
 
         # No grad
         predicted_items = []
@@ -184,7 +190,7 @@ class Train:
                 val_loss = loss_func(predicted_score, target)
 
                 # Total loss
-                total_loss += val_loss.item()
+                losses.append(val_loss.item())
 
                 # Accuracy
                 predicted_item = torch.max(predicted_score, dim=1)[1]
@@ -195,8 +201,9 @@ class Train:
 
         accuracy = (total_correct.float() * 100.0 / total_items).item()
         self._print_confusion_matrix(target_items, predicted_items, "Validation ")
+        losses = torch.Tensor(losses)
 
-        return total_loss, accuracy
+        return losses.sum().item(), losses.mean().item(), losses.std().item(), accuracy
 
     @staticmethod
     def _print_confusion_matrix(y_actual, y_pred, title):
