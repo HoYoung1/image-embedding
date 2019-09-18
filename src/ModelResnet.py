@@ -7,7 +7,7 @@ class ModelResnet(nn.Module):
     def __init__(self, n_classes, drop_out=0.5):
         super().__init__()
         self.drop_out = drop_out
-        self.model = models.resnet50(pretrained=False)
+        self.model = models.resnet50(pretrained=True)
         self.classes = n_classes
         # Change the final layer so that the number of classes
         # Use print final layer to figure out the input size to the final layer
