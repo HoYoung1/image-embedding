@@ -2,8 +2,7 @@ from evaluator_base import EvaluatorBase
 
 
 class Evaluator(EvaluatorBase):
-    def __init__(self, distance_measurer, scorer, k_threshold=1, batch_size=32):
-        self.batch_size = batch_size
+    def __init__(self, distance_measurer, scorer, k_threshold=1):
         self.k_threshold = k_threshold
         self.distance_metric = distance_measurer
         self.scorer = scorer
