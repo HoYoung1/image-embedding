@@ -5,6 +5,9 @@ import torch
 
 
 class Snapshotter(object):
+    """
+    Takes a model snapshot
+    """
 
     @property
     def logger(self):
