@@ -1,8 +1,10 @@
+import glob
 import tempfile
 
 import torch
 from PIL import Image
-from torchvision import transforms, models
+from torch import load
+from torchvision import transforms
 
 
 def input_fn(request_body, request_content_type):
@@ -22,7 +24,8 @@ def input_fn(request_body, request_content_type):
 
 
 def model_fn(model_dir):
-    model = models.resnet18(pretrained=True)
+    model_file = _find_artifact("{}/*.pt".format(model_dir))
+    model = load(model_file)
     return model
 
 
@@ -38,6 +41,14 @@ def predict_fn(input_data, model):
 def output_fn(prediction, content_type):
     """Return prediction"""
     return prediction
+
+
+def _find_artifact(pattern):
+    matching = glob.glob(pattern)
+    assert len(matching) == 1, "Expected exactly one in {}, but found {}".format(pattern,
+                                                                                 len(matching))
+    matched_file = matching[0]
+    return matched_file
 
 
 def _pre_process_image(image_fp):
