@@ -4,12 +4,17 @@ from evaluator import Evaluator
 
 
 class EvaluationFactory:
+    """
+    Creates a evaluator
+    """
+
+    def __init__(self, k_threshold=5):
+        self.k_threshold = k_threshold
 
     def get_evaluator(self):
         distance_metric = EuclideanPairwiseDistance()
         scorer = CMCScore()
-        k_threshold = 5
 
-        evaluator = Evaluator(distance_metric, scorer, k_threshold=k_threshold)
+        evaluator = Evaluator(distance_metric, scorer, k_threshold=self.k_threshold)
 
         return evaluator
