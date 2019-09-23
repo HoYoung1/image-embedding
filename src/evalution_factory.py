@@ -1,9 +1,10 @@
 from CMCScore import CMCScore
 from EuclideanPairwiseDistance import EuclideanPairwiseDistance
 from evaluator import Evaluator
+from evaluator_factory_base import EvaluatorFactoryBase
 
 
-class EvaluationFactory:
+class EvaluationFactory(EvaluatorFactoryBase):
     """
     Creates a evaluator
     """
