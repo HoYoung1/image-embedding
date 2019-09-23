@@ -25,37 +25,37 @@ Feature extraction for images.. See [ImageEmbedding.ipynb](ImageEmbedding.ipynb)
     ```
     
 
-## Use pretrained model to evaluate dataset
-
-**Note** The images in the tests folder are sample only. Please download the full dataset from the respective public database
-
-1. Evalute caviar dataset
-    ```bash
-    export PYTHONPATH=src
-    python src/main_evaluate.py --dataset Caviar tests/imagesCaviar
-    ```
-
-2. Evalute market 1501 dataset . 
-    ```bash
-    export PYTHONPATH=src
-    python src/main_evaluate.py --dataset Market1501 tests/imagesMarket1501
-    ```
-
 ## Custom training using resnet
 
 
 1. Evalute caviar dataset
     ```bash
     export PYTHONPATH=src
-    python src/experiment_train.py Caviar --traindir tests/imagesCaviar --valdir tests/imagesCaviar --outdir /tmp --epochs 10 --batchsize 32
+    python src/experiment_train.py  --dataset Caviar --traindir tests/imagesCaviar --valdir tests/imagesCaviar --outdir /tmp --epochs 10 --batchsize 32
     ```
 
 2. Evalute market 1501 dataset . 
     ```bash
     export PYTHONPATH=src
-    python src/experiment_train.py Market1501 --traindir tests/imagesCaviar --valdir tests/imagesCaviar --outdir /tmp --epochs 10 --batchsize 32
+    python src/experiment_train.py  --dataset Market1501 --traindir tests/imagesCaviar --valdir tests/imagesCaviar --outdir /tmp --epochs 10 --batchsize 32
     ```
 
+
+## Use  model to evaluate dataset
+
+**Note** The images in the tests folder are sample only. Please download the full dataset from the respective public database
+
+1. Evalute caviar dataset
+    ```bash
+    export PYTHONPATH=src
+    python src/main_predict_evaluate.py --dataset Caviar --modelpath <model_path>  --rawimagesdir tests/imagesCaviar
+    ```
+
+2. Evalute market 1501 dataset . 
+    ```bash
+    export PYTHONPATH=src
+    python src/main_predict_evaluate.py --dataset Market1501 --modelpath <model_path>  --rawimagesdir tests/imagesMarket1501
+    ```
 
 
 ## Acknowledgements

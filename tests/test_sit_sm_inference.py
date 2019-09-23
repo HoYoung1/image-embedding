@@ -4,7 +4,7 @@ from unittest import TestCase
 from sm_inference import input_fn
 
 
-class TestInputFn(TestCase):
+class TestSitSmInference(TestCase):
     def test_input_fn(self):
         # Arrange
         img_name = os.path.join(os.path.dirname(__file__), "imagesLFW", "George_W_Bush_0517.jpg")
@@ -15,4 +15,4 @@ class TestInputFn(TestCase):
         actual = input_fn(image_bytes, "application/binary")
 
         # Assert
-        self.assertEqual(len(actual.shape), 4)
+        self.assertSequenceEqual(image_bytes, actual)
