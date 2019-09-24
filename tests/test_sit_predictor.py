@@ -4,8 +4,8 @@ from unittest import TestCase
 
 import torch
 
-from Predictor import Predictor
 from dataset_factory import DatasetFactory
+from predictor import Predictor
 from train_factory import TrainFactory
 
 

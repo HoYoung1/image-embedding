@@ -2,7 +2,7 @@ from unittest import TestCase
 
 import torch
 
-from EuclideanPairwiseDistance import EuclideanPairwiseDistance
+from euclidean_pairwise_distance import EuclideanPairwiseDistance
 
 
 class TestEuclideanPairwiseDistance(TestCase):

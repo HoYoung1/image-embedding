@@ -5,9 +5,9 @@ import sys
 import torch
 from torch.utils.data import DataLoader
 
-from Predictor import Predictor
 from dataset_factory import DatasetFactory
 from evalution_factory import EvaluationFactory
+from predictor import Predictor
 
 
 class PredictEvaluate:

@@ -16,7 +16,7 @@ from unittest import TestCase
 
 from torch import nn
 
-from PretrainedModelLoader import PretrainedModelLoader
+from pretrained_model_loader import PretrainedModelLoader
 
 
 class TestPretrainedModelLoader(TestCase):

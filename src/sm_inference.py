@@ -1,4 +1,4 @@
-from Predictor import Predictor
+from predictor import Predictor
 
 
 def input_fn(request_body, request_content_type):

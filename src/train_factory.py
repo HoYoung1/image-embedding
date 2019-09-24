@@ -4,7 +4,7 @@ import os
 from torch import nn
 from torch.optim import Adam
 
-from ModelResnet import ModelResnet
+from model_resnet import ModelResnet
 from train import Train
 from train_pipeline import TrainPipeline
 

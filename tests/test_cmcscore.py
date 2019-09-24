@@ -2,7 +2,7 @@ from unittest import TestCase
 
 import torch
 
-from CMCScore import CMCScore
+from cmc_score import CMCScore
 
 
 class TestCMCScore(TestCase):

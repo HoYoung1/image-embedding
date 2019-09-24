@@ -2,12 +2,11 @@ from __future__ import absolute_import
 
 import torch
 
-"""
-Computes pairwise euclidean distance
-"""
-
 
 class EuclideanPairwiseDistance():
+    """
+    Computes pairwise euclidean distance
+    """
 
     def __call__(self, x):
         """
