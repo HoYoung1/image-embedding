@@ -8,7 +8,6 @@ class Market1501DatasetFactory:
         return "Market1501"
 
     def get(self, images_dir):
-        batch_size = 32
         dataset = Market1501Dataset(images_dir)
 
         return dataset

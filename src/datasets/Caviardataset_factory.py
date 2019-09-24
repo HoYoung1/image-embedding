@@ -8,7 +8,6 @@ class CaviarDatasetFactory:
         return "Caviar"
 
     def get(self, images_dir):
-        batch_size = 32
         dataset = CaviarDataset(images_dir)
 
         return dataset
