@@ -72,16 +72,11 @@ Runs predictions on input data, which can be a file path or an array of bytes  o
         pattern = "{}/*.pt".format(model_dir)
         matching = glob.glob(pattern)
 
-        if len(matching) == 0:
-            pattern = "{}/*.pth".format(model_dir)
-            matching = glob.glob(pattern)
-
         assert len(
-            matching) == 1, "Expected exactly one in file that ends with either .pt or .pth {}, but found {}".format(
+            matching) == 1, "Expected exactly one in file that ends with either .pt, but found {}".format(
             pattern,
                                                                                      len(matching))
         matched_file = matching[0]
-        print(matched_file)
         return matched_file
 
     # TODO: This is repeat code block as seen within dataset class, refactor

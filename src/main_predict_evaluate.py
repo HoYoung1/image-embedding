@@ -3,10 +3,10 @@ import logging
 import sys
 
 import torch
-from datasets.Dataset_factory import DatasetFactory
 from torch.utils.data import DataLoader
 
 from Predictor import Predictor
+from dataset_factory import DatasetFactory
 from evalution_factory import EvaluationFactory
 
 
@@ -14,7 +14,7 @@ class PredictEvaluate:
 
     def __call__(self, dataset_type, model_path, rawimagesdir):
         evaluator = EvaluationFactory().get_evaluator()
-        datasetfactory = DatasetFactory.get_datasetfactory(dataset_type)
+        datasetfactory = DatasetFactory().get_datasetfactory(dataset_type)
 
         dataset = datasetfactory.get(rawimagesdir)
         batch_size = min(len(dataset), 32)
@@ -41,7 +41,7 @@ if __name__ == '__main__':
 
     parser.add_argument("--dataset",
                         help="The type of dataset",
-                        choices=DatasetFactory.dataset_factory_names, required=True)
+                        choices=DatasetFactory().dataset_factory_names, required=True)
     parser.add_argument("--modelpath",
                         help="The model path", required=True)
 

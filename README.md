@@ -31,13 +31,13 @@ Feature extraction for images.. See [ImageEmbedding.ipynb](ImageEmbedding.ipynb)
 1. Evalute caviar dataset
     ```bash
     export PYTHONPATH=src
-    python src/experiment_train.py  --dataset Caviar --traindir tests/imagesCaviar --valdir tests/imagesCaviar --outdir /tmp --epochs 10 --batchsize 32
+    python src/experiment_train.py  --dataset CaviarFactory --traindir tests/imagesCaviar --valdir tests/imagesCaviar --outdir /tmp --epochs 10 --batchsize 32
     ```
 
 2. Evalute market 1501 dataset . 
     ```bash
     export PYTHONPATH=src
-    python src/experiment_train.py  --dataset Market1501 --traindir tests/imagesCaviar --valdir tests/imagesCaviar --outdir /tmp --epochs 10 --batchsize 32
+    python src/experiment_train.py  --dataset Market1501Factory --traindir tests/imagesMarket1501 --valdir tests/imagesMarket1501 --outdir /tmp --epochs 10 --batchsize 32
     ```
 
 
@@ -48,15 +48,29 @@ Feature extraction for images.. See [ImageEmbedding.ipynb](ImageEmbedding.ipynb)
 1. Evalute caviar dataset
     ```bash
     export PYTHONPATH=src
-    python src/main_predict_evaluate.py --dataset Caviar --modelpath <model_path>  --rawimagesdir tests/imagesCaviar
+    python src/main_predict_evaluate.py --dataset CaviarFactory --modelpath <model_path>  --rawimagesdir tests/imagesCaviar
     ```
 
 2. Evalute market 1501 dataset . 
     ```bash
     export PYTHONPATH=src
-    python src/main_predict_evaluate.py --dataset Market1501 --modelpath <model_path>  --rawimagesdir tests/imagesMarket1501
+    python src/main_predict_evaluate.py --dataset Market1501Factory --modelpath <model_path>  --rawimagesdir tests/imagesMarket1501
     ```
 
+3. To use a pretrainedmodel as , e.g ResNet-18
+
+    ```bash
+    export model_path=/tmp/modeldir/
+    mkdir -p /tmp/modeldir/
+   
+    #save pretrained model model 
+    export PYTHONPATH=src
+    python src/PretrainedModelLoader.py --modelname resnet18 --modelpath ${model_path}  
+    # evaluate pretrained model 
+    python src/main_predict_evaluate.py --dataset Market1501Factory --modelpath ${model_path}  --rawimagesdir tests/imagesMarket1501
+         
+    
+    ```
 
 ## Acknowledgements
 
