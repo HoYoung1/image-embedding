@@ -25,7 +25,7 @@ class TestPretrainedModelLoader(TestCase):
         sut = PretrainedModelLoader()
 
         # Act
-        model = sut("resnet50")
+        model = sut.load("resnet50")
 
         # Assert
         self.assertIsInstance(model, nn.Module)
