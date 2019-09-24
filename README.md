@@ -41,7 +41,7 @@ Feature extraction for images.. See [ImageEmbedding.ipynb](ImageEmbedding.ipynb)
     ```
 
 
-## Use  model to evaluate dataset
+## Evaluate a custom trained model using a dataset
 
 **Note** The images in the tests folder are sample only. Please download the full dataset from the respective public database
 
@@ -57,15 +57,18 @@ Feature extraction for images.. See [ImageEmbedding.ipynb](ImageEmbedding.ipynb)
     python src/main_predict_evaluate.py --dataset Market1501Factory --modelpath <model_path>  --rawimagesdir tests/imagesMarket1501
     ```
 
-3. To use a pretrainedmodel as , e.g ResNet-18
+## Evaluate a custom trained model using a dataset 
+
+1. Save a pretrained model dict into a file using PretrainedModelLoader.py and then run main_predict_evaluate.py 
 
     ```bash
     export model_path=/tmp/modeldir/
     mkdir -p /tmp/modeldir/
    
-    #save pretrained model model 
+    #save pretrained model  
     export PYTHONPATH=src
     python src/PretrainedModelLoader.py --modelname resnet18 --modelpath ${model_path}  
+ 
     # evaluate pretrained model 
     python src/main_predict_evaluate.py --dataset Market1501Factory --modelpath ${model_path}  --rawimagesdir tests/imagesMarket1501
          
