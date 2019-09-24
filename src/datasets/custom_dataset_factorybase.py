@@ -12,21 +12,10 @@
 #  express or implied. See the License for the specific language governing
 #  permissions and limitations under the License.
 # ***************************************************************
-from datasets.Caviardataset_factory import CaviarDatasetFactory
-from datasets.Market1501dataset_factory import Market1501DatasetFactory
+class CustomDatasetFactoryBase:
+    """
+    This is the base class for a custom dataset factory
+    """
 
-
-class DatasetFactory:
-
-    @staticmethod
-    def get_datasetfactory(name):
-        if name == CaviarDatasetFactory.dataset_name():
-            return CaviarDatasetFactory()
-
-        if name == Market1501DatasetFactory.dataset_name():
-            return Market1501DatasetFactory()
-
-    @staticmethod
-    def get_datasets():
-        return {CaviarDatasetFactory.dataset_name(),
-                Market1501DatasetFactory.dataset_name()}
+    def get(self, images_dir):
+        raise NotImplementedError

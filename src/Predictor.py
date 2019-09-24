@@ -32,7 +32,8 @@ class Predictor:
         self.min_img_size_h = min_img_size_h
         model_file = model_dir_or_filepath
         if os.path.isdir(model_dir_or_filepath):
-            model_file = self._find_artifact("{}/*.pt".format(model_dir_or_filepath))
+            model_dir_or_filepath = model_dir_or_filepath.rstrip("/")
+            model_file = self._find_artifact(model_dir_or_filepath)
 
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.model = load(model_file)
@@ -67,11 +68,20 @@ Runs predictions on input data, which can be a file path or an array of bytes  o
             return self.model(input_data.to(self.device))
 
     @staticmethod
-    def _find_artifact(pattern):
+    def _find_artifact(model_dir):
+        pattern = "{}/*.pt".format(model_dir)
         matching = glob.glob(pattern)
-        assert len(matching) == 1, "Expected exactly one in {}, but found {}".format(pattern,
+
+        if len(matching) == 0:
+            pattern = "{}/*.pth".format(model_dir)
+            matching = glob.glob(pattern)
+
+        assert len(
+            matching) == 1, "Expected exactly one in file that ends with either .pt or .pth {}, but found {}".format(
+            pattern,
                                                                                      len(matching))
         matched_file = matching[0]
+        print(matched_file)
         return matched_file
 
     # TODO: This is repeat code block as seen within dataset class, refactor

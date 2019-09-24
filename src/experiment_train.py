@@ -4,6 +4,7 @@ import os
 import sys
 
 from datasets.Dataset_factory import DatasetFactory
+
 from train_factory import TrainFactory
 
 
@@ -34,7 +35,7 @@ if __name__ == '__main__':
 
     parser.add_argument("--dataset",
                         help="The type of dataset",
-                        choices=DatasetFactory.get_datasets(), required=True)
+                        choices=DatasetFactory.dataset_factory_names, required=True)
 
     parser.add_argument("--traindir",
                         help="The input train  data", default=os.environ.get("SM_CHANNEL_TRAIN", None))

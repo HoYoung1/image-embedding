@@ -1,22 +1,17 @@
-import logging
 import os
 
 from PIL import Image
 from skimage import io
 from torchvision.transforms import transforms
 
-from datasets.CustomDataset import CustomDataset
+from datasets.custom_datasetbase import CustomDatasetBase
 
 """
-Market1501 dataset
+Caviar dataset
 """
 
 
-class Market1501Dataset(CustomDataset):
-
-    @property
-    def num_classes(self):
-        return len(self._zero_indexed_labels)
+class CaviarDataset(CustomDatasetBase):
 
     def __init__(self, raw_directory, min_img_size_h=214, min_img_size_w=214):
         self.min_img_size_w = min_img_size_w
@@ -24,10 +19,10 @@ class Market1501Dataset(CustomDataset):
         self.raw_directory = raw_directory
 
         self._len = None
-        self._files = [os.path.join(self.raw_directory, f) for f in os.listdir(self.raw_directory) if f.endswith("jpg")]
+        self._files = [os.path.join(self.raw_directory, f) for f in os.listdir(self.raw_directory)]
 
-        # The market 1501 dataset files have the naming convention target_camerasite_..., e.g. 1038_c2s2_131202_03.jpeg
-        self._target_raw_labels = [os.path.basename(f).split("_")[0] for f in self._files]
+        # The caviar  dataset files have the naming convention target_camerasite_..., XXXXYYY.jpeg where XXXX is the id
+        self._target_raw_labels = [os.path.basename(f)[0:4] for f in self._files]
         self._zero_indexed_labels = {}
         for rc in self._target_raw_labels:
             self._zero_indexed_labels[rc] = self._zero_indexed_labels.get(rc, len(self._zero_indexed_labels))
@@ -38,13 +33,8 @@ class Market1501Dataset(CustomDataset):
 
         return self._len
 
-    @property
-    def logger(self):
-        return logging.getLogger(__name__)
-
     def __getitem__(self, index):
         target = self._zero_indexed_labels[self._target_raw_labels[index]]
-        self.logger.debug("preprocessing imaage {}".format(self._files[index]))
         return self._pre_process_image(io.imread(self._files[index])), target
 
     def _pre_process_image(self, image):
@@ -60,3 +50,7 @@ class Market1501Dataset(CustomDataset):
         # Add batch [N, C, H, W]
         # img_tensor = img.unsqueeze(0)
         return img_tensor
+
+    @property
+    def num_classes(self):
+        return len(self._zero_indexed_labels)

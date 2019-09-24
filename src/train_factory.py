@@ -39,7 +39,7 @@ class TrainFactory:
     def get(self, train_dataset):
         trainer = Train(patience_epochs=self.patience_epochs, early_stopping=self.early_stopping, epochs=self.epochs)
         model = ModelResnet(n_classes=train_dataset.num_classes)
-        # optimiser = SGD(lr=self.learning_rate, params=model.parameters())
+        # optimiser = SGD(lr=self.learning_rate, params=model.parameters(), momentum=0.9)
         optimiser = Adam(lr=self.learning_rate, params=model.parameters())
         train_pipeline = TrainPipeline(batch_size=self.batch_size,
                                        optimiser=optimiser,

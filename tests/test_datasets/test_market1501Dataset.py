@@ -1,14 +1,14 @@
 import os
 from unittest import TestCase
 
-from datasets.Market1501Dataset import Market1501Dataset
+from datasets.market1501_dataset import Market1501Dataset
 
 
 class TestMarket1501Dataset(TestCase):
 
     def test___len__(self):
         # Arrange
-        img_dir = os.path.join(os.path.dirname(__file__), "imagesMarket1501")
+        img_dir = os.path.join(os.path.dirname(__file__), "..", "imagesMarket1501")
         sut = Market1501Dataset(img_dir)
         expected = 6
 
@@ -20,7 +20,7 @@ class TestMarket1501Dataset(TestCase):
 
     def test___call__(self):
         # Arrange
-        img_dir = os.path.join(os.path.dirname(__file__), "imagesMarket1501")
+        img_dir = os.path.join(os.path.dirname(__file__), "..", "imagesMarket1501")
         sut = Market1501Dataset(img_dir)
         total_images = 6
         expected_classes = 2
