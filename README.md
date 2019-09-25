@@ -21,7 +21,7 @@ Feature extraction for images.. See [ImageEmbedding.ipynb](ImageEmbedding.ipynb)
 
 1. Install dependencies
     ```bash
-     pip install -r src/requirements_dev.txt
+     pip install -r src/requirements_prod.txt
     ```
     
 
