@@ -21,7 +21,7 @@ from datasets.custom_dataset_factorybase import CustomDatasetFactoryBase
 
 class DatasetFactoryServiceLocator:
     """
-    General dataset factory that automatically loads datasets factories that are subclasses of CustomDatasetFactoryBase
+    General dataset factory ServiceLocator automatically loads datasets factories that are subclasses of CustomDatasetFactoryBase
     """
 
     def __init__(self):
