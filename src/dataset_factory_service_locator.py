@@ -49,7 +49,7 @@ class DatasetFactoryServiceLocator:
     def get_factory(self, class_name):
         """
         Returns a dataset factory object
-        :param class_name: The name of the dataset factory class, see property dataset_factory_names to obtain valid list of class names
+        :param class_name: The name of the dataset factory class, see property factory_names to obtain valid list of class names
         :return:
         """
         if class_name in self._class_name_class_dict:
