@@ -5,7 +5,7 @@ import sys
 import torch
 from torch.utils.data import DataLoader
 
-from dataset_factory import DatasetFactory
+from dataset_factory_service_locator import DatasetFactoryServiceLocator
 from evalution_factory import EvaluationFactory
 from predictor import Predictor
 
@@ -14,7 +14,7 @@ class PredictEvaluate:
 
     def __call__(self, dataset_type, model_path, rawimagesdir):
         evaluator = EvaluationFactory().get_evaluator()
-        datasetfactory = DatasetFactory().get_datasetfactory(dataset_type)
+        datasetfactory = DatasetFactoryServiceLocator().get_datasetfactory(dataset_type)
 
         dataset = datasetfactory.get(rawimagesdir)
         batch_size = min(len(dataset), 32)
@@ -41,7 +41,7 @@ if __name__ == '__main__':
 
     parser.add_argument("--dataset",
                         help="The type of dataset",
-                        choices=DatasetFactory().dataset_factory_names, required=True)
+                        choices=DatasetFactoryServiceLocator().dataset_factory_names, required=True)
     parser.add_argument("--modelpath",
                         help="The model path", required=True)
 

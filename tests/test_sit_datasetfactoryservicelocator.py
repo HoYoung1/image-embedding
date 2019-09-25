@@ -14,15 +14,15 @@
 # ***************************************************************
 from unittest import TestCase
 
-from dataset_factory import DatasetFactory
+from dataset_factory_service_locator import DatasetFactoryServiceLocator
 from datasets.custom_dataset_factorybase import CustomDatasetFactoryBase
 
 
-class TestDatasetFactory(TestCase):
+class TestSitDatasetFactoryServiceLocator(TestCase):
 
     def test_dataset_factory_names(self):
         # Arrange
-        sut = DatasetFactory()
+        sut = DatasetFactoryServiceLocator()
 
         # act
         class_names = sut.dataset_factory_names
@@ -34,7 +34,7 @@ class TestDatasetFactory(TestCase):
 
     def test_get_datasetfactory(self):
         # Arrange
-        sut = DatasetFactory()
+        sut = DatasetFactoryServiceLocator()
         class_names = sut.dataset_factory_names
 
         # Act

@@ -19,7 +19,7 @@ import pkgutil
 from datasets.custom_dataset_factorybase import CustomDatasetFactoryBase
 
 
-class DatasetFactory:
+class DatasetFactoryServiceLocator:
     """
     General dataset factory that automatically loads datasets factories that are subclasses of CustomDatasetFactoryBase
     """
