@@ -1,10 +1,10 @@
 import os
 from unittest import TestCase
 
-from sm_inference import input_fn
+from sagemaker_inference import input_fn
 
 
-class TestSitSmInference(TestCase):
+class TestSitSagemakerInference(TestCase):
     def test_input_fn(self):
         # Arrange
         img_name = os.path.join(os.path.dirname(__file__), "imagesLFW", "George_W_Bush_0517.jpg")
