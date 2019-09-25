@@ -53,6 +53,7 @@ Computes the triplet loss
         :param target: 1d tensor of target
         :return: loss
         """
+
         triplets = self._generate_all_triplets(target)
         p = triplets[:, 0]
         q = triplets[:, 1]
@@ -60,7 +61,8 @@ Computes the triplet loss
         pos_distance = self._get_distance(predicted_embedding[q], predicted_embedding[p])
         neg_distance = self._get_distance(predicted_embedding[q], predicted_embedding[n])
 
-        losses = torch.max(pos_distance - neg_distance + self.margin, torch.zeros(pos_distance.shape[0]))
+        losses = torch.max(pos_distance - neg_distance + self.margin,
+                           torch.zeros(pos_distance.shape[0], device=predicted_embedding.device))
 
         # Filter hard loss
         if self.topk is not None:
