@@ -5,7 +5,7 @@ from torchvision import models
 class ModelResnet(nn.Module):
 
     def __init__(self, n_classes, drop_out=0.5):
-        super().__init__()
+        super(ModelResnet).__init__()
         self.drop_out = drop_out
         self.model = models.resnet18(pretrained=True)
         self.classes = n_classes
