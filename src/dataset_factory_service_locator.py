@@ -39,14 +39,14 @@ class DatasetFactoryServiceLocator:
         self._class_name_class_dict = {cls.__name__: cls for cls in base_class.__subclasses__()}
 
     @property
-    def dataset_factory_names(self):
+    def factory_names(self):
         """
         Returns the names of subclasses of CustomDatasetFactoryBase that can be dynamically loaded
         :return:
         """
         return list(self._class_name_class_dict.keys())
 
-    def get_datasetfactory(self, class_name):
+    def get_factory(self, class_name):
         """
         Returns a dataset factory object
         :param class_name: The name of the dataset factory class, see property dataset_factory_names to obtain valid list of class names
@@ -55,4 +55,4 @@ class DatasetFactoryServiceLocator:
         if class_name in self._class_name_class_dict:
             return self._class_name_class_dict[class_name]()
         else:
-            raise ModuleNotFoundError("Module should be in {}".format(self.dataset_factory_names))
+            raise ModuleNotFoundError("Module should be in {}".format(self.factory_names))

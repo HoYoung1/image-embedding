@@ -20,25 +20,25 @@ from datasets.custom_dataset_factorybase import CustomDatasetFactoryBase
 
 class TestSitDatasetFactoryServiceLocator(TestCase):
 
-    def test_dataset_factory_names(self):
+    def test_factory_names(self):
         # Arrange
         sut = DatasetFactoryServiceLocator()
 
         # act
-        class_names = sut.dataset_factory_names
+        class_names = sut.factory_names
 
         # assert
         self.assertEqual(len(class_names), 2,
                          " The number of expected dataset factory classes doesnt match.. Check the number of classes that inhert from {}  !".format(
                              type(CustomDatasetFactoryBase)))
 
-    def test_get_datasetfactory(self):
+    def test_get_factory(self):
         # Arrange
         sut = DatasetFactoryServiceLocator()
-        class_names = sut.dataset_factory_names
+        class_names = sut.factory_names
 
         # Act
-        obj = sut.get_datasetfactory(class_names[0])
+        obj = sut.get_factory(class_names[0])
 
         # assert
         self.assertIsInstance(obj, CustomDatasetFactoryBase)

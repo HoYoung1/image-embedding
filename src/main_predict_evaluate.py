@@ -14,7 +14,7 @@ class PredictEvaluate:
 
     def __call__(self, dataset_type, model_path, rawimagesdir):
         evaluator = EvaluationFactory().get_evaluator()
-        datasetfactory = DatasetFactoryServiceLocator().get_datasetfactory(dataset_type)
+        datasetfactory = DatasetFactoryServiceLocator().get_factory(dataset_type)
 
         dataset = datasetfactory.get(rawimagesdir)
         batch_size = min(len(dataset), 32)
@@ -41,7 +41,7 @@ if __name__ == '__main__':
 
     parser.add_argument("--dataset",
                         help="The type of dataset",
-                        choices=DatasetFactoryServiceLocator().dataset_factory_names, required=True)
+                        choices=DatasetFactoryServiceLocator().factory_names, required=True)
     parser.add_argument("--modelpath",
                         help="The model path", required=True)
 

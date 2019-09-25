@@ -12,7 +12,7 @@ class TestSitTrainMarket1501(TestCase):
         # Arrange
         img_dir = os.path.join(os.path.dirname(__file__), "imagesMarket1501")
         # get dataset
-        dataset_factory = DatasetFactoryServiceLocator().get_datasetfactory("Market1501Factory")
+        dataset_factory = DatasetFactoryServiceLocator().get_factory("Market1501Factory")
         dataset = dataset_factory.get(img_dir)
 
         # get train factory
