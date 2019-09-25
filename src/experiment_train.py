@@ -12,11 +12,10 @@ class ExperimentTrain:
     def __init__(self):
         pass
 
-    def run(self, dataset_type, train_dir, val_dir, out_dir, batch_size=32, epochs=10, patience_epoch=2,
+    def run(self, dataset_factory_name, train_dir, val_dir, out_dir, batch_size=32, epochs=10, patience_epoch=2,
             additional_args=None):
         # Set up dataset
-        datasetfactory = DatasetFactoryServiceLocator().get_factory(dataset_type)
-
+        datasetfactory = DatasetFactoryServiceLocator().get_factory(dataset_factory_name)
         train_dataset = datasetfactory.get(train_dir)
         val_dataset = datasetfactory.get(val_dir)
 

@@ -12,9 +12,9 @@ from predictor import Predictor
 
 class PredictEvaluate:
 
-    def __call__(self, dataset_type, model_path, rawimagesdir):
+    def __call__(self, dataset_factory_name, model_path, rawimagesdir):
         evaluator = EvaluationFactory().get_evaluator()
-        datasetfactory = DatasetFactoryServiceLocator().get_factory(dataset_type)
+        datasetfactory = DatasetFactoryServiceLocator().get_factory(dataset_factory_name)
 
         dataset = datasetfactory.get(rawimagesdir)
         batch_size = min(len(dataset), 32)
