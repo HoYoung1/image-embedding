@@ -16,7 +16,7 @@ class TestSitTrainMarket1501(TestCase):
         dataset = dataset_factory.get(img_dir)
 
         # get train factory
-        train_factory = TrainFactory(num_workers=1, epochs=2, batch_size=2, early_stopping=True, patience_epochs=2)
+        train_factory = TrainFactory(num_workers=1, epochs=2, batch_size=6, early_stopping=True, patience_epochs=2)
         output_dir = tempfile.mkdtemp()
 
         # Act

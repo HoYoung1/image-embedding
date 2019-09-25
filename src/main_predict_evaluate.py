@@ -6,14 +6,15 @@ import torch
 from torch.utils.data import DataLoader
 
 from dataset_factory_service_locator import DatasetFactoryServiceLocator
-from evalution_factory import EvaluationFactory
+from evaluator_factory_service_locator import EvalutorFactoryServiceLocator
 from predictor import Predictor
 
 
 class PredictEvaluate:
 
     def __call__(self, dataset_factory_name, model_path, rawimagesdir):
-        evaluator = EvaluationFactory().get_evaluator()
+        evalfactory = EvalutorFactoryServiceLocator.get_factory("EvaluationFactory")
+        evaluator = evalfactory.get_evaluator()
         datasetfactory = DatasetFactoryServiceLocator().get_factory(dataset_factory_name)
 
         dataset = datasetfactory.get(rawimagesdir)
@@ -32,7 +33,7 @@ class PredictEvaluate:
         embeddings = torch.stack(embeddings)
         class_person = torch.stack(class_person)
 
-        result = evaluator.evaluate(embeddings, class_person)
+        result = evaluator(embeddings, class_person)
         return result
 
 

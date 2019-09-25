@@ -29,6 +29,6 @@ class TestSitPredictor(TestCase):
         dataset_factory = DatasetFactoryServiceLocator().get_factory("Market1501Factory")
         dataset = dataset_factory.get(img_dir)
 
-        factory = TrainFactory(num_workers=1, epochs=2, batch_size=2, early_stopping=True, patience_epochs=2)
+        factory = TrainFactory(num_workers=1, epochs=2, batch_size=6, early_stopping=True, patience_epochs=2)
         pipeline = factory.get(dataset)
         pipeline.run(dataset, dataset, output_dir)

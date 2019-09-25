@@ -1,12 +1,13 @@
 import logging
 import os
 
-from torch import nn
 from torch.optim import Adam
 
+from evaluator_factory_service_locator import EvalutorFactoryServiceLocator
 from model_resnet import ModelResnet
 from train import Train
 from train_pipeline import TrainPipeline
+from tripletloss import TripletLoss
 
 
 class TrainFactory:
@@ -26,6 +27,8 @@ class TrainFactory:
         self.additional_args = additional_args or {}
 
         self.learning_rate = float(self._get_value(self.additional_args, "learning_rate", ".01"))
+        self.tripletloss_margin = float(self._get_value(self.additional_args, "tripletloss_margin", "2.5"))
+        self.tripletloss_topk = int(self._get_value(self.additional_args, "tripletloss_topk", "25"))
 
     @property
     def logger(self):
@@ -37,15 +40,23 @@ class TrainFactory:
         return value
 
     def get(self, train_dataset):
-        trainer = Train(patience_epochs=self.patience_epochs, early_stopping=self.early_stopping, epochs=self.epochs)
-        model = ModelResnet(n_classes=train_dataset.num_classes)
+
+        evaluator_factory = EvalutorFactoryServiceLocator().get_factory("EvaluationFactory")
+        evaluator = evaluator_factory.get_evaluator()
+
+        trainer = Train(evaluator, patience_epochs=self.patience_epochs, early_stopping=self.early_stopping,
+                        epochs=self.epochs)
+        model = ModelResnet()
+
         # optimiser = SGD(lr=self.learning_rate, params=model.parameters(), momentum=0.9)
         optimiser = Adam(lr=self.learning_rate, params=model.parameters())
+        # loss = nn.CrossEntropyLoss()
+        loss = TripletLoss(margin=self.tripletloss_margin, topk=self.tripletloss_topk)
         train_pipeline = TrainPipeline(batch_size=self.batch_size,
                                        optimiser=optimiser,
                                        trainer=trainer,
                                        num_workers=self.num_workers,
-                                       loss_func=nn.CrossEntropyLoss(),
+                                       loss_func=loss,
                                        model=model)
 
         return train_pipeline

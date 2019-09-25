@@ -1,7 +1,7 @@
-from CMCScore import CMCScore
-from EuclideanPairwiseDistance import EuclideanPairwiseDistance
-from evaluator import Evaluator
-from evaluator_factory_base import EvaluatorFactoryBase
+from cmc_score import CMCScore
+from euclidean_pairwise_distance import EuclideanPairwiseDistance
+from evaluators.evaluator import Evaluator
+from evaluators.evaluator_factory_base import EvaluatorFactoryBase
 
 
 class EvaluationFactory(EvaluatorFactoryBase):

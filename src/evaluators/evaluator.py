@@ -1,4 +1,4 @@
-from evaluator_base import EvaluatorBase
+from evaluators.evaluator_base import EvaluatorBase
 
 
 class Evaluator(EvaluatorBase):
@@ -7,7 +7,7 @@ class Evaluator(EvaluatorBase):
         self.distance_metric = distance_measurer
         self.scorer = scorer
 
-    def evaluate(self, actual_embedding, target_class):
+    def __call__(self, actual_embedding, target_class):
         # Compute pairwise
         pairwise_distance = self.distance_metric(actual_embedding)
 

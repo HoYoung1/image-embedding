@@ -42,7 +42,7 @@ class TripletLoss(nn.Module):
     """
 
     def __init__(self, margin, topk=None):
-        super(TripletLoss).__init__()
+        super().__init__()
         self.topk = topk
         self.margin = margin
 
