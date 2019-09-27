@@ -12,9 +12,9 @@
 #  express or implied. See the License for the specific language governing
 #  permissions and limitations under the License.
 # ***************************************************************
+import logging
 from itertools import permutations
 
-import numpy as np
 import torch
 from torch import nn
 
@@ -45,6 +45,11 @@ class TripletLoss(nn.Module):
         super().__init__()
         self.topk = topk
         self.margin = margin
+
+    @property
+    def logger(self):
+        return logging.getLogger(__name__)
+
 
     def forward(self, predicted_embedding, target):
         """
@@ -99,8 +104,12 @@ Computes the triplet loss
         all_triplet_combinations = permutations(range(n_items), 3)
 
         # create a triplet of form  (positive, query, negative)
+        valid = torch.tensor((list(all_triplet_combinations)))
         # filter out permutation such that only one of p , q or q , p is present by filtering out p<q
-        valid_samples = [[p, q, n] for p, q, n in all_triplet_combinations if
-                         target[p] == target[q] and target[q] != target[n] and p < q]
+        valid = valid[valid[:, 0] < valid[:, 1], :]
+        # filter out where target[p] = target[q], positive match
+        valid = valid[target[valid[:, 0]] == target[valid[:, 1]], :]
+        # filter out where target[q] != target[n], negative
+        valid = valid[target[valid[:, 1]] != target[valid[:, 2]], :]
 
-        return torch.LongTensor(np.array(valid_samples))
+        return valid
