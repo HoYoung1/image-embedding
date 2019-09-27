@@ -15,7 +15,6 @@
 
 import logging
 
-import numpy as np
 import torch
 
 from model_snapshotter import Snapshotter
@@ -63,19 +62,15 @@ class Train:
         model.to(device=self.device)
         best_loss = None
         best_score = None
-        train_scores = []
         patience = 0
 
         result_logs = []
 
         for e in range(self.epochs):
 
-            predicted_items = []
             target_items = []
 
             train_losses = []
-            total_correct = 0
-            total_items = 0
 
             for i, (b_x, target) in enumerate(train_data):
                 # use this for confusion matrix later
@@ -109,14 +104,11 @@ class Train:
                 train_score = self.evaluator(predicted_features, target)
                 self.logger.debug("Computing score function complete ")
 
-                train_scores.append(train_score)
-
                 self.logger.debug(
                     "Batch {}/{}, total correct {}. loss {}".format(i, e, train_score, loss.item()))
 
-            train_losses = torch.Tensor(train_losses)
-            train_loss, train_loss_mean, train_loss_std = train_losses.sum().item(), train_losses.mean().item(), train_losses.std().item()
-            train_score = np.mean(train_scores)
+            train_loss, train_loss_mean, train_loss_std, train_score = self._compute_validation_loss(train_data, model,
+                                                                                                     loss_func)
 
             # Validation loss
             val_loss, val_loss_mean, val_loss_std, val_score = self._compute_validation_loss(val_data, model,
