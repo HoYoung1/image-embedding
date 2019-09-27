@@ -68,14 +68,7 @@ class Train:
 
         for e in range(self.epochs):
 
-            target_items = []
-
-            train_losses = []
-
             for i, (b_x, target) in enumerate(train_data):
-                # use this for confusion matrix later
-                target_items.extend(target.tolist())
-
                 # Set up train mode
                 model.train()
                 len = b_x.shape[0]
@@ -89,8 +82,6 @@ class Train:
                 self.logger.debug("Computing loss function: ")
                 loss = loss_func(predicted_features, target)
                 self.logger.debug("Computing loss function complete ")
-
-                train_losses.append(loss.item())
 
                 # Backward
                 optimiser.zero_grad()
