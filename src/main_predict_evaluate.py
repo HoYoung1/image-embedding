@@ -12,8 +12,8 @@ from predictor import Predictor
 
 class PredictEvaluate:
 
-    def __call__(self, dataset_factory_name, model_path, rawimagesdir):
-        evalfactory = EvalutorFactoryServiceLocator().get_factory("EvaluationFactory")
+    def __call__(self, dataset_factory_name, model_path, rawimagesdir, eval_factory_name="EvaluationFactory"):
+        evalfactory = EvalutorFactoryServiceLocator().get_factory(eval_factory_name)
         evaluator = evalfactory.get_evaluator()
         datasetfactory = DatasetFactoryServiceLocator().get_factory(dataset_factory_name)
 
