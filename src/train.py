@@ -89,13 +89,8 @@ class Train:
                 # Update weights
                 optimiser.step()
 
-                # store scores
-                self.logger.debug("Computing score function: ")
-                train_score = self.evaluator(predicted_features, target)
-                self.logger.debug("Computing score function complete ")
-
                 self.logger.debug(
-                    "Batch {}/{}, total correct {}. loss {}".format(i, e, train_score, loss.item()))
+                    "Batch {}/{}, loss {}".format(i, e, loss.item()))
 
             train_loss, train_loss_mean, train_loss_std, train_score = self._compute_validation_loss(train_data, model,
                                                                                                      loss_func)
