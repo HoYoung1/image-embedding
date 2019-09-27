@@ -71,7 +71,6 @@ class Train:
             for i, (b_x, target) in enumerate(train_data):
                 # Set up train mode
                 model.train()
-                len = b_x.shape[0]
 
                 # Copy to device
                 b_x = b_x.to(device=self.device)
