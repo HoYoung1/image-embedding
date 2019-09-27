@@ -104,7 +104,7 @@ Computes the triplet loss
         all_triplet_combinations = permutations(range(n_items), 3)
 
         # create a triplet of form  (positive, query, negative)
-        valid = torch.tensor((list(all_triplet_combinations)), device=target.device)
+        valid = torch.tensor(list(all_triplet_combinations), device=target.device)
         # filter out permutation such that only one of p , q or q , p is present by filtering out index[p]<index[q]
         valid = valid[valid[:, 0] < valid[:, 1], :]
         # filter out where target[p] = target[q], positive match
