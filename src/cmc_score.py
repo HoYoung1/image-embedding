@@ -43,6 +43,9 @@ Computes CMC Score.
         :param k_threshold: max K to use for averaging
         :return:
         """
+        assert pairwise_distance_matrix.shape[0] == target_label.shape[
+            0], "The size of the target labels {} should match the length of pairwise_distance_matrix".format(
+            target_label.shape[0], pairwise_distance_matrix.shape[0])
         total = 0.0
         for k in range(1, k_threshold + 1):
             accuracy, _, _ = self.accuracy_at_top_k(pairwise_distance_matrix, target_label, k)
