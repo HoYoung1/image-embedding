@@ -91,7 +91,10 @@ class Train:
 
                 # Forward pass
                 predicted_features = model(b_x)
+                self.logger.debug("Computing loss function: ")
                 loss = loss_func(predicted_features, target)
+                self.logger.debug("Computing loss function complete ")
+
                 train_losses.append(loss.item())
 
                 # Backward
@@ -102,7 +105,10 @@ class Train:
                 optimiser.step()
 
                 # store scores
+                self.logger.debug("Computing score function: ")
                 train_score = self.evaluator(predicted_features, target)
+                self.logger.debug("Computing score function complete ")
+
                 train_scores.append(train_score)
 
                 self.logger.debug(
