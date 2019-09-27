@@ -8,7 +8,7 @@ from cmc_score import CMCScore
 class TestCMCScore(TestCase):
     def test_score(self):
         # Arrange
-        pairwise_distance = torch.tensor([[0, 2, 1], [2, 0, 3], [1, 3, 0]])
+        pairwise_distance = torch.tensor([[0, 11112, 1], [11112, 0, 3], [1, 3, 0]])
         sut = CMCScore()
         expected = 66.67
 
