@@ -173,13 +173,4 @@ class TestTripletLoss(TestCase):
         # Assert
         self.assertSequenceEqual(expected_triplet_indices.cpu().numpy().tolist(), actual.cpu().numpy().tolist())
 
-    def test__generate_all_speed(self):
-        """
-        Case where just one positive  example and 1 negative sample
-        """
-        # Arrange
-        input_target = torch.tensor([0, 0, 1, 2])
-        sut = TripletLoss(.5)
 
-        # Act
-        actual = sut._generate_all_triplets(input_target)
