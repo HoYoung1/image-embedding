@@ -53,7 +53,7 @@ class TestTripletLoss(TestCase):
 
         target = torch.tensor([1, 1, 0])
 
-        # max  ( 0, 0- math.sqrt(3) + margin)
+        # max  ( 0, 0-3 + margin)
         expected = 0
 
         # Act
@@ -87,14 +87,14 @@ class TestTripletLoss(TestCase):
         input_x = torch.tensor([[1, 8, 7]], dtype=torch.float)
         input_y = torch.tensor([[2, 3, 4]], dtype=torch.float)
 
-        expected = torch.tensor([5.92]) * torch.tensor([5.92])
+        expected = torch.tensor([35])
         sut = TripletLoss(.5)
 
         # Act
         actual = sut._get_distance(input_x, input_y)
 
         # Assert
-        self.assertSequenceEqual(expected.cpu().numpy().round(1).tolist(), actual.cpu().numpy().round(1).tolist())
+        self.assertSequenceEqual(expected.cpu().numpy().round(2).tolist(), actual.cpu().numpy().round(2).tolist())
 
     def test__generate_all_triplets_single(self):
         """
