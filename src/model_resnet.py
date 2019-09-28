@@ -18,13 +18,15 @@ from torchvision import models
 
 class ModelResnet(nn.Module):
 
-    def __init__(self):
+    def __init__(self, embed_dim=128):
         super().__init__()
-        self.resnet_model = models.resnet18(pretrained=True)
+        self.embed_dim = embed_dim
+        self.resnet_model = models.resnet34(pretrained=True)
         # Change the final layer so that the number of classes
         # Use print final layer to figure out the input size to the final layer
         # print(self.model.fc)
-        # fc_input_size = 512  # 2048 is for resnet 50
+        fc_input_size = 512  # 2048 is for resnet 50
+        self.resnet_model.fc = nn.Sequential(nn.Linear(fc_input_size, self.embed_dim))
 
     def forward(self, input):
         fc_out = self.resnet_model(input)
