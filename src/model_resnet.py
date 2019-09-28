@@ -20,7 +20,7 @@ class ModelResnet(nn.Module):
 
     def __init__(self):
         super().__init__()
-        self.resnet_model = models.resnet50(pretrained=True)
+        self.resnet_model = models.resnet18(pretrained=True)
         # Change the final layer so that the number of classes
         # Use print final layer to figure out the input size to the final layer
         # print(self.model.fc)
