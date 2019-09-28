@@ -38,6 +38,7 @@ Computes pairwise euclidean distance
 
         y = torch.t(x)
         xy = x @ y
-        result = torch.sqrt(squared_x + squared_x.unsqueeze(1) - 2 * xy)
+        sum_of_squares = squared_x + squared_x.unsqueeze(1) - 2 * xy
+        result = sum_of_squares  # torch.sqrt(sum_of_squares)
 
         return result
