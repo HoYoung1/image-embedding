@@ -12,7 +12,6 @@
 #  express or implied. See the License for the specific language governing
 #  permissions and limitations under the License.
 # ***************************************************************
-import math
 from unittest import TestCase
 
 import torch
@@ -34,7 +33,7 @@ class TestTripletLoss(TestCase):
 
         target = torch.tensor([1, 1, 0])
 
-        expected = 0 - math.sqrt(3) + margin
+        expected = 0 - 3 + margin
 
         # Act
         actual = sut.forward(predicted, target)
@@ -88,14 +87,14 @@ class TestTripletLoss(TestCase):
         input_x = torch.tensor([[1, 8, 7]], dtype=torch.float)
         input_y = torch.tensor([[2, 3, 4]], dtype=torch.float)
 
-        expected = torch.tensor([5.92])
+        expected = torch.tensor([5.92]) * torch.tensor([5.92])
         sut = TripletLoss(.5)
 
         # Act
         actual = sut._get_distance(input_x, input_y)
 
         # Assert
-        self.assertSequenceEqual(expected.cpu().numpy().tolist(), actual.cpu().numpy().round(2).tolist())
+        self.assertSequenceEqual(expected.cpu().numpy().round(1).tolist(), actual.cpu().numpy().round(1).tolist())
 
     def test__generate_all_triplets_single(self):
         """
@@ -172,5 +171,3 @@ class TestTripletLoss(TestCase):
 
         # Assert
         self.assertSequenceEqual(expected_triplet_indices.cpu().numpy().tolist(), actual.cpu().numpy().tolist())
-
-

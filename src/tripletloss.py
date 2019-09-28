@@ -50,7 +50,6 @@ class TripletLoss(nn.Module):
     def logger(self):
         return logging.getLogger(__name__)
 
-
     def forward(self, predicted_embedding, target):
         """
 Computes the triplet loss
@@ -85,7 +84,7 @@ Computes the triplet loss
         """
         assert x.shape == y.shape, "Expecting the shapes of x and y to match"
 
-        result = torch.sqrt(torch.pow(x - y, 2).sum(1))
+        result = torch.pow(x - y, 2).sum(1)
 
         return result
 
