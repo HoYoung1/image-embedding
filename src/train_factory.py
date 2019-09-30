@@ -63,7 +63,7 @@ class TrainFactory:
         model = ModelResnet()
 
         # Define optimiser
-        learning_rate = float(self._get_value(self.additional_args, "learning_rate", ".01"))
+        learning_rate = float(self._get_value(self.additional_args, "learning_rate", ".001"))
         weight_decay = float(self._get_value(self.additional_args, "weight_decay", "5e-5"))
         momentum = float(self._get_value(self.additional_args, "momentum", ".9"))
         optimiser = SGD(lr=learning_rate, params=model.parameters(), momentum=momentum, weight_decay=weight_decay)

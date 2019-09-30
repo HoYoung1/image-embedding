@@ -19,6 +19,7 @@ class Market1501Dataset(CustomDatasetBase):
         self.min_img_size_h = min_img_size_h
         self.raw_directory = raw_directory
         self.original_width = 64
+        self.original_height = 128
 
         self._len = None
         self._files = [os.path.join(self.raw_directory, f) for f in os.listdir(self.raw_directory) if f.endswith("jpg")]
@@ -54,27 +55,24 @@ class Market1501Dataset(CustomDatasetBase):
 
         # Market150 dataset size is 64 width, height is 128
 
-        # horizontal_crop = torchvision.transforms.RandomCrop((128 / 4, self.original_width), padding=None,
+        # horizontal_crop = torchvision.transforms.RandomCrop((self.original_height / 4, self.original_width),
+        #                                                     padding=None,
         #                                                     pad_if_needed=False,
         #                                                     fill=0, padding_mode='constant')
         # horizontal flip
-        # horizonatal_flip = torchvision.transforms.RandomHorizontalFlip(p=0.5)
+        # horizonatal_flip = torchvision.transforms.RandomHorizontalFlip(p=1.0)
 
         # Combine all transforms
         transform_pipeline = transforms.Compose([
             # Randomly apply horizontal crop or flip
             # torchvision.transforms.RandomApply([ horizonatal_flip,  horizontal_crop], p=0.5),
-            # horizontal_crop,
+            # horizonatal_flip,
             # Resize
             # Market150 dataset size is 64 width, height is 128, so we maintain the aspect ratio
-
             transforms.Resize((self.min_img_size_h, self.min_img_size_w)),
             # Regular stuff
             transforms.ToTensor(),
-            # transforms.Normalize(mean=[0.299, 0.247, 0.229],
-            #                      # torch image: C X H X W
-            #                      std=[0.162, 0.139, 0.134])])
-            # NOTE: not using defaults provided for torch vision as the mean and std for market1501 dataset is different
+
             transforms.Normalize(mean=[0.485, 0.456, 0.406],
                                  # torch image: C X H X W
                                  std=[0.229, 0.224, 0.225])])
