@@ -16,7 +16,7 @@
 import logging
 import os
 
-from torch.optim import Adam
+from torch.optim import SGD
 
 from evaluator_factory_service_locator import EvalutorFactoryServiceLocator
 from model_resnet import ModelResnet
@@ -44,10 +44,6 @@ class TrainFactory:
         self.epochs = epochs
         self.additional_args = additional_args or {}
 
-        self.learning_rate = float(self._get_value(self.additional_args, "learning_rate", ".01"))
-        self.tripletloss_margin = float(self._get_value(self.additional_args, "tripletloss_margin", "2.5"))
-        self.tripletloss_topk = int(self._get_value(self.additional_args, "tripletloss_topk", "25"))
-
     @property
     def logger(self):
         return logging.getLogger(__name__)
@@ -66,10 +62,21 @@ class TrainFactory:
                         epochs=self.epochs)
         model = ModelResnet()
 
-        # optimiser = SGD(lr=self.learning_rate, params=model.parameters(), momentum=0.9)
-        optimiser = Adam(lr=self.learning_rate, params=model.parameters())
+        # Define optimiser
+        learning_rate = float(self._get_value(self.additional_args, "learning_rate", ".01"))
+        weight_decay = float(self._get_value(self.additional_args, "weight_decay", "5e-5"))
+        momentum = float(self._get_value(self.additional_args, "momentum", ".9"))
+        optimiser = SGD(lr=learning_rate, params=model.parameters(), momentum=momentum, weight_decay=weight_decay)
+        # optimiser = Adam(lr=self.learning_rate, params=model.parameters())
+
+        self.logger.info("Using optimiser {}".format(type(optimiser)))
+
+        # Define loss function
+        tripletloss_margin = float(self._get_value(self.additional_args, "tripletloss_margin", "2.5"))
+        tripletloss_topk = int(self._get_value(self.additional_args, "tripletloss_topk", "25"))
+        loss = TripletLoss(margin=tripletloss_margin, topk=tripletloss_topk)
         # loss = nn.CrossEntropyLoss()
-        loss = TripletLoss(margin=self.tripletloss_margin, topk=self.tripletloss_topk)
+
         train_pipeline = TrainPipeline(batch_size=self.batch_size,
                                        optimiser=optimiser,
                                        trainer=trainer,
