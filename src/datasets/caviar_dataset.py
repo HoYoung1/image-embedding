@@ -13,7 +13,7 @@ Caviar dataset
 
 class CaviarDataset(CustomDatasetBase):
 
-    def __init__(self, raw_directory, min_img_size_h=214, min_img_size_w=214):
+    def __init__(self, raw_directory, min_img_size_h=224, min_img_size_w=224):
         self.min_img_size_w = min_img_size_w
         self.min_img_size_h = min_img_size_h
         self.raw_directory = raw_directory
