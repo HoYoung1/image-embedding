@@ -64,9 +64,16 @@ if __name__ == '__main__':
 
     parser.add_argument("--log-level", help="Log level", default="INFO", choices={"INFO", "WARN", "DEBUG", "ERROR"})
 
-    args = parser.parse_args()
+    args, additional = parser.parse_known_args()
+
+    # Convert additional args into dict
+    print(additional)
+    additional_dict = {}
+    for i in range(0, len(additional), 2):
+        additional_dict[additional[i].lstrip("--")] = additional[i + 1]
 
     print(args.__dict__)
+    print(additional_dict)
 
     # Set up logging
     logging.basicConfig(level=logging.getLevelName(args.log_level), handlers=[logging.StreamHandler(sys.stdout)],
@@ -78,4 +85,4 @@ if __name__ == '__main__':
                           args.outdir,
                           args.batchsize,
                           args.epochs,
-                          args.patience)
+                          args.patience, additional_args=additional_dict)

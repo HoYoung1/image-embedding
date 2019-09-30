@@ -37,7 +37,7 @@ Feature extraction for images.. See [ImageEmbedding.ipynb](ImageEmbedding.ipynb)
 2. Evalute market 1501 dataset . 
     ```bash
     export PYTHONPATH=src
-    python src/experiment_train.py  --dataset Market1501Factory --traindir tests/imagesMarket1501 --valdir tests/imagesMarket1501 --outdir /tmp --epochs 10 --batchsize 32
+    python src/experiment_train.py  --dataset Market1501Factory --traindir tests/imagesMarket1501 --valdir tests/imagesMarket1501 --outdir /tmp --epochs 10 --batchsize 32  --learning_rate .01
     ```
 
 
