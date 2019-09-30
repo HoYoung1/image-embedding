@@ -1,6 +1,7 @@
 import logging
 import os
 
+import torchvision
 from PIL import Image
 from skimage import io
 from torchvision.transforms import transforms
@@ -55,18 +56,17 @@ class Market1501Dataset(CustomDatasetBase):
 
         # Market150 dataset size is 64 width, height is 128
 
-        # horizontal_crop = torchvision.transforms.RandomCrop((self.original_height / 4, self.original_width),
-        #                                                     padding=None,
-        #                                                     pad_if_needed=False,
-        #                                                     fill=0, padding_mode='constant')
+        horizontal_crop = torchvision.transforms.RandomCrop((self.original_height / 4, self.original_width),
+                                                            padding=None,
+                                                            pad_if_needed=False,
+                                                            fill=0, padding_mode='constant')
         # horizontal flip
-        # horizonatal_flip = torchvision.transforms.RandomHorizontalFlip(p=1.0)
+        horizonatal_flip = torchvision.transforms.RandomHorizontalFlip(p=0.5)
 
         # Combine all transforms
         transform_pipeline = transforms.Compose([
             # Randomly apply horizontal crop or flip
-            # torchvision.transforms.RandomApply([ horizonatal_flip,  horizontal_crop], p=0.5),
-            # horizonatal_flip,
+            torchvision.transforms.RandomApply([horizonatal_flip, horizontal_crop], p=0.5),
             # Resize
             # Market150 dataset size is 64 width, height is 128, so we maintain the aspect ratio
             transforms.Resize((self.min_img_size_h, self.min_img_size_w)),
