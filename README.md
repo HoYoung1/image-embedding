@@ -14,7 +14,7 @@ Feature extraction for images.. See [ImageEmbedding.ipynb](ImageEmbedding.ipynb)
 
 ## Prerequisites
 
-1. Python 3.6
+1. Python 3.7.4
 2. Install virtual env
 
 ## Set up
