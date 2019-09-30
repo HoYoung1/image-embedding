@@ -13,7 +13,7 @@ phases:
        ## CONFIGURE THIS: Repo name, please make sure this repo exists in ECR
       - export projectname=image-embedding
       - export IMAGE_REPO_NAME=image-embedding
-      - export PYTORCH_VERSION=1.0.0
+      - export PYTORCH_VERSION=1.1.0
       # AWS cli version to login into ecr. This needs to be compatible with the version of boto3 in the requirements file
       - export awscli_version=1.16.35
       - export AWS_PYTORCH_ECR_ACCOUNT=520713654638
