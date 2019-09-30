@@ -1,6 +1,7 @@
 import logging
 import os
 
+import torchvision
 from PIL import Image
 from skimage import io
 from torchvision.transforms import transforms
@@ -14,10 +15,11 @@ class Market1501Dataset(CustomDatasetBase):
     def num_classes(self):
         return len(self._zero_indexed_labels)
 
-    def __init__(self, raw_directory, min_img_size_h=224, min_img_size_w=224):
+    def __init__(self, raw_directory, min_img_size_h=256, min_img_size_w=128):
         self.min_img_size_w = min_img_size_w
         self.min_img_size_h = min_img_size_h
         self.raw_directory = raw_directory
+        self.original_width = 64
 
         self._len = None
         self._files = [os.path.join(self.raw_directory, f) for f in os.listdir(self.raw_directory) if f.endswith("jpg")]
@@ -46,12 +48,29 @@ class Market1501Dataset(CustomDatasetBase):
     def _pre_process_image(self, image):
         # pre-process data
         image = Image.fromarray(image)
-        # The min size, as noted in the PyTorch pretrained models doc, is 224 px.
-        transform_pipeline = transforms.Compose([transforms.Resize((self.min_img_size_h, self.min_img_size_w)),
-                                                 transforms.ToTensor(),
-                                                 transforms.Normalize(mean=[0.485, 0.456, 0.406],
-                                                                      # torch image: C X H X W
-                                                                      std=[0.229, 0.224, 0.225])])
+        # Crop such that the horizontal width is the same, ( idea similar to re-aligned paper)
+        # Zhang, Xuan, et al. "Alignedreid: Surpassing human-level performance in person re-identification."
+
+        # Market150 dataset size is 64 width, height is 128
+
+        horizontal_crop = torchvision.transforms.RandomCrop((128 / 4 - 1, self.original_width), padding=None,
+                                                            pad_if_needed=False,
+                                                            fill=0, padding_mode='constant')
+        # horizontal flip
+        horizonatal_flip = torchvision.transforms.RandomHorizontalFlip(p=0.5)
+
+        # Combine all transforms
+        transform_pipeline = transforms.Compose([
+            # Randomly apply horizontal crop or flip
+            torchvision.transforms.RandomApply([horizontal_crop, horizonatal_flip], p=0.5),
+            # Resize
+            # Market150 dataset size is 64 width, height is 128, so we maintain the aspect ratio
+            transforms.Resize((self.min_img_size_h, self.min_img_size_w)),
+            # Regular stuff
+            transforms.ToTensor(),
+            transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                                 # torch image: C X H X W
+                                 std=[0.229, 0.224, 0.225])])
         img_tensor = transform_pipeline(image)
         # Add batch [N, C, H, W]
         # img_tensor = img.unsqueeze(0)
