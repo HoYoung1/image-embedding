@@ -2,9 +2,9 @@ language: python
 python:
   - "3.6.5"
 install:
-  - pip install pip==10.0.1
+  - pip install pip==19.1.1
   - pip -V
-  - pip install --progress-bar off --pre  -r src/requirements_prod.txt
+  - pip install --progress-bar  pip-r src/requirements_prod.txt
 script:
   - export PYTHONPATH=./src
   - pytest --tb=short
