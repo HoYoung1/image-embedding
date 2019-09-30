@@ -9,6 +9,7 @@ class Market1501Factory(CustomDatasetFactoryBase):
 
     def get(self, images_dir):
         # Market150 dataset size is 64 width, height is 128, so we maintain the aspect ratio
-        dataset = Market1501Dataset(images_dir, min_img_size_h=256, min_img_size_w=128)
+        # NOTE: for some reason oly 224 / 224 works, any other shape results in NAN
+        dataset = Market1501Dataset(images_dir, min_img_size_h=224, min_img_size_w=224)
 
         return dataset
