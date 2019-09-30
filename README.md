@@ -26,7 +26,7 @@ Feature extraction for images.. See [ImageEmbedding.ipynb](ImageEmbedding.ipynb)
     
 
 ## Custom training using resnet
-
+We try to implement the paper *Almazan, Jon, et al. "Re-id done right: towards good practices for person re-identification." arXiv preprint arXiv:1801.05339 (2018).*
 
 1. Evalute caviar dataset
     ```bash
