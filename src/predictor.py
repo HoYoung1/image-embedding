@@ -36,7 +36,7 @@ class Predictor:
             model_file = self._find_artifact(model_dir_or_filepath)
 
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-        self.model = load(model_file)
+        self.model = load(model_file, map_location=self.device)
         self.model.to(device=self.device)
 
     def __call__(self, input_file_or_bytes):
@@ -75,7 +75,7 @@ Runs predictions on input data, which can be a file path or an array of bytes  o
         assert len(
             matching) == 1, "Expected exactly one in file that ends with either .pt, but found {}".format(
             pattern,
-                                                                                     len(matching))
+            len(matching))
         matched_file = matching[0]
         return matched_file
 
