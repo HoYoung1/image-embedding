@@ -53,7 +53,7 @@ class Market1501Dataset(CustomDatasetBase):
 
         # Market150 dataset size is 64 width, height is 128
 
-        horizontal_crop = torchvision.transforms.RandomCrop((128 / 4 - 1, self.original_width), padding=None,
+        horizontal_crop = torchvision.transforms.RandomCrop((128 / 4, self.original_width), padding=None,
                                                             pad_if_needed=False,
                                                             fill=0, padding_mode='constant')
         # horizontal flip
