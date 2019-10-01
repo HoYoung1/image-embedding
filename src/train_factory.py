@@ -34,7 +34,7 @@ class TrainFactory:
                  additional_args=None):
 
         if num_workers is None and os.cpu_count() > 1:
-            self.num_workers = os.cpu_count() - 1
+            self.num_workers = min(4, os.cpu_count() - 1)
         else:
             self.num_workers = 0
 
