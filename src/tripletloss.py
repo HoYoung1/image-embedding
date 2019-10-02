@@ -65,8 +65,8 @@ Computes the triplet loss
         pos_distance = self._get_distance(predicted_embedding[q], predicted_embedding[p])
         neg_distance = self._get_distance(predicted_embedding[q], predicted_embedding[n])
 
-        losses = torch.max(pos_distance - neg_distance + self.margin,
-                           torch.zeros(pos_distance.shape[0], device=predicted_embedding.device))
+        # use relu instead of max
+        losses = torch.relu(pos_distance - neg_distance + self.margin)
 
         # Filter hard loss
         if self.topk is not None:
