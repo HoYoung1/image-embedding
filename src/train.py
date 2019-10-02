@@ -68,18 +68,23 @@ class Train:
 
         for e in range(self.epochs):
 
-            for i, (b_x, target) in enumerate(train_data):
+            for i, (p_x, q_x, n_x, target) in enumerate(train_data):
                 # Set up train mode
                 model.train()
 
                 # Copy to device
-                b_x = b_x.to(device=self.device)
+                p_x = p_x.to(device=self.device)
+                q_x = q_x.to(device=self.device)
+                n_x = n_x.to(device=self.device)
+
                 target = target.to(device=self.device)
 
                 # Forward pass
-                predicted_features = model(b_x)
+                p_features = model(p_x)
+                q_features = model(q_x)
+                n_features = model(n_x)
                 self.logger.debug("Computing loss function: ")
-                loss = loss_func(predicted_features, target)
+                loss = loss_func(p_features, q_features, n_features, target)
                 self.logger.debug("Computing loss function complete ")
 
                 # Backward
@@ -162,18 +167,27 @@ class Train:
         predictions = []
         target_items = []
         with torch.no_grad():
-            for i, (b_x, target) in enumerate(data):
+            for i, (p_x, q_x, n_x, target) in enumerate(data):
                 target_items.append(target)
 
                 # Copy to device
-                b_x = b_x.to(device=self.device)
+                p_x = p_x.to(device=self.device)
+                q_x = q_x.to(device=self.device)
+                n_x = n_x.to(device=self.device)
+
                 target = target.to(device=self.device)
 
-                b_predicted_features = model(b_x)
-                # Check for Nans
-                if b_predicted_features.ne(b_predicted_features).any():
+                # Forward pass
+                p_features = model(p_x)
+                q_features = model(q_x)
+                n_features = model(n_x)
+                self.logger.debug("Computing loss function: ")
+                val_loss = loss_func(p_features, q_features, n_features, target)
 
-                    if b_predicted_features.ne(b_predicted_features).all():
+                # Check for Nans
+                if q_features.ne(q_features).any():
+
+                    if q_features.ne(q_features).all():
                         self.logger.warning(
                             "All outputs are NaNs in predicted features in batch {}.. This could be because of exploding or vanishing gradients".format(
                                 i))
@@ -182,13 +196,11 @@ class Train:
                             "There are NaNs in predicted features in batch {}.. This could be because of exploding or vanishing gradients".format(
                                 i))
 
-                val_loss = loss_func(b_predicted_features, target)
-
                 # Total loss
                 losses.append(val_loss.item())
 
                 # Score to get score
-                predictions.append(b_predicted_features)
+                predictions.append(q_features)
 
         predictions = torch.cat(predictions, dim=0)
         target_items = torch.cat(target_items, dim=0)

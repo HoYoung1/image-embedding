@@ -28,7 +28,7 @@ Feature extraction for images.. See [ImageEmbedding.ipynb](ImageEmbedding.ipynb)
 ## Custom training using resnet
 We try to implement the paper *Almazan, Jon, et al. "Re-id done right: towards good practices for person re-identification." arXiv preprint arXiv:1801.05339 (2018).*
 
-1. Evalute caviar dataset
+1. Evalute caviar dataset **TODO: Caviar dataset factory doesnt work, fix..** 
     ```bash
     export PYTHONPATH=src
     python src/experiment_train.py  --dataset CaviarFactory --traindir tests/imagesCaviar --valdir tests/imagesCaviar --outdir /tmp --epochs 10 --batchsize 32
@@ -37,7 +37,7 @@ We try to implement the paper *Almazan, Jon, et al. "Re-id done right: towards g
 2. Evalute market 1501 dataset . 
     ```bash
     export PYTHONPATH=src
-    python src/experiment_train.py  --dataset Market1501Factory --traindir tests/imagesMarket1501 --valdir tests/imagesMarket1501 --outdir /tmp --epochs 10 --batchsize 32  --learning_rate .0001 --tripletloss_margin 1000
+    python src/experiment_train.py  --dataset Market1501TripletFactory --traindir tests/imagesMarket1501 --valdir tests/imagesMarket1501 --outdir /tmp --epochs 10 --batchsize 32  --learning_rate .0001 --tripletloss_margin 1000
     ```
 
 
@@ -45,7 +45,9 @@ We try to implement the paper *Almazan, Jon, et al. "Re-id done right: towards g
 
 **Note** The images in the tests folder are sample only. Please download the full dataset from the respective public database
 
-1. Evalute caviar dataset
+
+1. Evalute caviar dataset. **TODO: Caviar dataset factory doesnt work, fix..** 
+
     ```bash
     export PYTHONPATH=src
     python src/main_predict_evaluate.py --dataset CaviarFactory --modelpath <model_path>  --rawimagesdir tests/imagesCaviar
@@ -54,7 +56,7 @@ We try to implement the paper *Almazan, Jon, et al. "Re-id done right: towards g
 2. Evalute market 1501 dataset . 
     ```bash
     export PYTHONPATH=src
-    python src/main_predict_evaluate.py --dataset Market1501Factory --modelpath <model_path>  --rawimagesdir tests/imagesMarket1501
+    python src/main_predict_evaluate.py --dataset Market1501TripletFactory --modelpath <model_path>  --rawimagesdir tests/imagesMarket1501
     ```
 
 ## Evaluate a pretrained model 
