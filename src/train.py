@@ -170,6 +170,18 @@ class Train:
                 target = target.to(device=self.device)
 
                 b_predicted_features = model(b_x)
+                # Check for Nans
+                if b_predicted_features.ne(b_predicted_features).any():
+
+                    if b_predicted_features.ne(b_predicted_features).all():
+                        self.logger.warning(
+                            "All outputs are NaNs in predicted features in batch {}.. This could be because of exploding or vanishing gradients".format(
+                                i))
+                    else:
+                        self.logger.warning(
+                            "There are NaNs in predicted features in batch {}.. This could be because of exploding or vanishing gradients".format(
+                                i))
+
                 val_loss = loss_func(b_predicted_features, target)
 
                 # Total loss
