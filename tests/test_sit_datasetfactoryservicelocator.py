@@ -28,7 +28,7 @@ class TestSitDatasetFactoryServiceLocator(TestCase):
         class_names = sut.factory_names
 
         # assert
-        self.assertEqual(len(class_names), 2,
+        self.assertEqual(len(class_names), 3,
                          " The number of expected dataset factory classes doesnt match.. Check the number of classes that inhert from {}  !".format(
                              type(CustomDatasetFactoryBase)))
 
