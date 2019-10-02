@@ -72,7 +72,7 @@ We try to implement the paper *Almazan, Jon, et al. "Re-id done right: towards g
     python src/PretrainedModelLoader.py --modelname resnet18 --modelpath ${model_path}  
  
     # evaluate pretrained model 
-    python src/main_predict_evaluate.py --dataset Market1501Factory --modelpath ${model_path}  --rawimagesdir tests/imagesMarket1501
+    python src/main_predict_evaluate.py --dataset Market1501TripletFactory --modelpath ${model_path}  --rawimagesdir tests/imagesMarket1501
          
     
     ```
