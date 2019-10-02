@@ -11,7 +11,10 @@ Feature extraction for images.. See [ImageEmbedding.ipynb](ImageEmbedding.ipynb)
 ## Benchmarks
 -  [A Systematic Evaluation and Benchmark for Person Re-Identification: Features, Metrics, and Datasets](https://arxiv.org/pdf/1605.09653.pdf)
 
+## Implementation details
 
+We try to implement the paper *Almazan, Jon, et al. "Re-id done right: towards good practices for person re-identification." arXiv preprint arXiv:1801.05339 (2018).*
+ 
 ## Prerequisites
 
 1. Python 3.7.4
@@ -26,7 +29,6 @@ Feature extraction for images.. See [ImageEmbedding.ipynb](ImageEmbedding.ipynb)
     
 
 ## Custom training using resnet
-We try to implement the paper *Almazan, Jon, et al. "Re-id done right: towards good practices for person re-identification." arXiv preprint arXiv:1801.05339 (2018).*
 
 1. Evalute caviar dataset **TODO: Caviar dataset factory doesnt work, fix..** 
     ```bash
@@ -79,6 +81,8 @@ We try to implement the paper *Almazan, Jon, et al. "Re-id done right: towards g
 
 ## Acknowledgements
 
+- Almazan, Jon, et al. "Re-id done right: towards good practices for person re-identification." arXiv preprint arXiv:1801.05339 (2018).
+
 - Gary B. Huang, Manu Ramesh, Tamara Berg, and Erik Learned-Miller.
 Labeled Faces in the Wild: A Database for Studying Face Recognition in Unconstrained Environments.
 University of Massachusetts, Amherst, Technical Report 07-49, October, 2007.
@@ -89,3 +93,5 @@ In British Machine Vision Conference (BMVC), 2011
 CAVIAR4REID dataset / video / bibtex
 
 - Liang Zheng, Liyue Shen, Lu Tian, Shengjin Wang, Jingdong Wang, Qi Tian, "Scalable Person Re-identification: A Benchmark", IEEE International Conference on Computer Vision (ICCV), 2015.
+
+- Triplet Loss and Online Triplet Mining in TensorFlow - https://omoindrot.github.io/triplet-loss
