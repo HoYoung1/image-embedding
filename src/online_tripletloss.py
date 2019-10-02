@@ -19,7 +19,7 @@ import torch
 from torch import nn
 
 
-class TripletLoss(nn.Module):
+class OnlineTripletLoss(nn.Module):
     """
     Implement online triplet loss based on hard triplet mining strategy in the paper - End-to-end Learning of Deep Visual Representations for Image Retrieval  - https://arxiv.org/pdf/1610.07940.pdf
 

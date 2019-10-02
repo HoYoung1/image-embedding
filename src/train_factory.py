@@ -20,9 +20,9 @@ from torch.optim import SGD
 
 from evaluator_factory_service_locator import EvalutorFactoryServiceLocator
 from model_resnet import ModelResnet
+from online_tripletloss import OnlineTripletLoss
 from train import Train
 from train_pipeline import TrainPipeline
-from tripletloss import TripletLoss
 
 
 class TrainFactory:
@@ -74,7 +74,7 @@ class TrainFactory:
         # Define loss function
         tripletloss_margin = float(self._get_value(self.additional_args, "tripletloss_margin", "2.5"))
         tripletloss_topk = int(self._get_value(self.additional_args, "tripletloss_topk", "25"))
-        loss = TripletLoss(margin=tripletloss_margin, topk=tripletloss_topk)
+        loss = OnlineTripletLoss(margin=tripletloss_margin, topk=tripletloss_topk)
         # loss = nn.CrossEntropyLoss()
 
         train_pipeline = TrainPipeline(batch_size=self.batch_size,

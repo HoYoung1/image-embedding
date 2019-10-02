@@ -16,10 +16,10 @@ from unittest import TestCase
 
 import torch
 
-from tripletloss import TripletLoss
+from online_tripletloss import OnlineTripletLoss
 
 
-class TestTripletLoss(TestCase):
+class TestOnlineTripletLoss(TestCase):
     def test_forward_max_nonzero(self):
         """
         Case where the difference between p and n sample is much smaller than the margin
@@ -28,7 +28,7 @@ class TestTripletLoss(TestCase):
         # Arrange
         margin = 50
         topk = 25
-        sut = TripletLoss(margin, topk)
+        sut = OnlineTripletLoss(margin, topk)
         predicted = torch.tensor([[0, 0, 1], [0, 0, 1], [1, 1, 2]], dtype=torch.float)
 
         target = torch.tensor([1, 1, 0])
@@ -48,7 +48,7 @@ class TestTripletLoss(TestCase):
         """
         # Arrange
         margin = .1
-        sut = TripletLoss(margin)
+        sut = OnlineTripletLoss(margin)
         predicted = torch.tensor([[0, 0, 1], [0, 0, 1], [1, 1, 2]], dtype=torch.float)
 
         target = torch.tensor([1, 1, 0])
@@ -71,7 +71,7 @@ class TestTripletLoss(TestCase):
         input_y = torch.tensor([[0, 0, 1]], dtype=torch.float)
 
         expected = torch.tensor([0])
-        sut = TripletLoss(.5)
+        sut = OnlineTripletLoss(.5)
 
         # Act
         actual = sut._get_distance(input_x, input_y)
@@ -88,7 +88,7 @@ class TestTripletLoss(TestCase):
         input_y = torch.tensor([[2, 3, 4]], dtype=torch.float)
 
         expected = torch.tensor([35])
-        sut = TripletLoss(.5)
+        sut = OnlineTripletLoss(.5)
 
         # Act
         actual = sut._get_distance(input_x, input_y)
@@ -103,7 +103,7 @@ class TestTripletLoss(TestCase):
         # Arrange
         input_target = torch.tensor([0, 0, 1])
         expected_triplet_indices = torch.tensor([[0, 1, 2]])
-        sut = TripletLoss(.5)
+        sut = OnlineTripletLoss(.5)
 
         # Act
         actual = sut._generate_all_triplets(input_target)
@@ -119,7 +119,7 @@ class TestTripletLoss(TestCase):
         # Arrange
         input_target = torch.tensor([1, 0, 0])
         expected_triplet_indices = torch.tensor([[1, 2, 0]])
-        sut = TripletLoss(.5)
+        sut = OnlineTripletLoss(.5)
 
         # Act
         actual = sut._generate_all_triplets(input_target)
@@ -134,7 +134,7 @@ class TestTripletLoss(TestCase):
         # Arrange
         input_target = torch.tensor([0, 0, 1, 2])
         expected_triplet_indices = torch.tensor([[0, 1, 2], [0, 1, 3]])
-        sut = TripletLoss(.5)
+        sut = OnlineTripletLoss(.5)
 
         # Act
         actual = sut._generate_all_triplets(input_target)
@@ -149,7 +149,7 @@ class TestTripletLoss(TestCase):
         # Arrange
         input_target = torch.tensor([0, 0, 1, 4])
         expected_triplet_indices = torch.tensor([[0, 1, 2], [0, 1, 3]])
-        sut = TripletLoss(.5)
+        sut = OnlineTripletLoss(.5)
 
         # Act
         actual = sut._generate_all_triplets(input_target)
@@ -164,7 +164,7 @@ class TestTripletLoss(TestCase):
         # Arrange
         input_target = torch.tensor([0, 0, 1, 2])
         expected_triplet_indices = torch.tensor([[0, 1, 2], [0, 1, 3]])
-        sut = TripletLoss(.5)
+        sut = OnlineTripletLoss(.5)
 
         # Act
         actual = sut._generate_all_triplets(input_target)
