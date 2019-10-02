@@ -9,7 +9,7 @@ class EvaluationFactory(EvaluatorFactoryBase):
     Creates a evaluator
     """
 
-    def __init__(self, k_threshold=5):
+    def __init__(self, k_threshold=1):
         self.k_threshold = k_threshold
 
     def get_evaluator(self):
