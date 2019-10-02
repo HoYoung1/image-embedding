@@ -66,7 +66,8 @@ class Market1501Dataset(CustomDatasetBase):
         # Combine all transforms
         transform_pipeline = transforms.Compose([
             # Randomly apply horizontal crop or flip
-            torchvision.transforms.RandomApply([horizonatal_flip, horizontal_crop], p=0.5),
+            # torchvision.transforms.RandomApply([horizonatal_flip, horizontal_crop], p=0.5),
+            horizonatal_flip,
             # Resize
             # Market150 dataset size is 64 width, height is 128, so we maintain the aspect ratio
             transforms.Resize((self.min_img_size_h, self.min_img_size_w)),
