@@ -23,7 +23,7 @@ class EuclideanPairwiseDistance():
     Computes pairwise euclidean distance
     """
 
-    def __call__(self, x):
+    def __call__(self, x, y=None):
         """
 Computes pairwise euclidean distance
         :param x: n x f float matrix  ( n samples and f features)
@@ -36,9 +36,15 @@ Computes pairwise euclidean distance
 
         squared_x = torch.pow(x, 2).sum(1)
 
-        y = torch.t(x)
-        xy = x @ y
-        sum_of_squares = squared_x + squared_x.unsqueeze(1) - 2 * xy
+        if y is not None:
+            yt = torch.t(y)
+            squared_y = torch.pow(y, 2).sum(1)
+        else:
+            yt = torch.t(x)
+            squared_y = squared_x
+
+        xy = x @ yt
+        sum_of_squares = squared_x.unsqueeze(1) + squared_y - 2 * xy
         result = sum_of_squares  # torch.sqrt(sum_of_squares)
 
         return result
