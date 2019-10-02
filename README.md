@@ -56,7 +56,7 @@ We try to implement the paper *Almazan, Jon, et al. "Re-id done right: towards g
 2. Evalute market 1501 dataset . 
     ```bash
     export PYTHONPATH=src
-    python src/main_predict_evaluate.py --dataset Market1501Triplet --modelpath <model_path>  --rawimagesdir tests/imagesMarket1501
+    python src/main_predict_evaluate.py --dataset Market1501Factory --modelpath <model_path>  --rawimagesdir tests/imagesMarket1501
     ```
 
 ## Evaluate a pretrained model 
@@ -72,7 +72,7 @@ We try to implement the paper *Almazan, Jon, et al. "Re-id done right: towards g
     python src/PretrainedModelLoader.py --modelname resnet18 --modelpath ${model_path}  
  
     # evaluate pretrained model 
-    python src/main_predict_evaluate.py --dataset Market1501Triplet --modelpath ${model_path}  --rawimagesdir tests/imagesMarket1501
+    python src/main_predict_evaluate.py --dataset Market1501Factory --modelpath ${model_path}  --rawimagesdir tests/imagesMarket1501
          
     
     ```
