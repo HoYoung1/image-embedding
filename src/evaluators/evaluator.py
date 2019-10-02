@@ -11,5 +11,5 @@ class Evaluator(EvaluatorBase):
         # Compute pairwise
         pairwise_distance = self.distance_metric(actual_embedding)
 
-        score = self.scorer.score(pairwise_distance, target_class, self.k_threshold)
+        score = self.scorer.score(pairwise_distance, target_class, k_threshold=self.k_threshold)
         return score

@@ -27,11 +27,12 @@ class CMCScore:
     - CMC Curve: Rank based metric
     """
 
-    def accuracy_at_top_k(self, pairwise_distance_matrix, target_label, k):
+    def accuracy_at_top_k(self, pairwise_distance_matrix, target_label_x_gallery, target_label_y_query, k):
         # Set nan to zero...
         # pairwise_distance_matrix[torch.isnan(pairwise_distance_matrix)] = 0
 
-        target_label = target_label.cpu().numpy()
+        target_label_x_gallery = target_label_x_gallery.cpu().numpy()
+        target_label_y_query = target_label_y_query.cpu().numpy()
         # Get the index matrix of the top k nearest neighbours
         rank_k = torch.topk(pairwise_distance_matrix, k=k + 1, dim=1, largest=False)[1]
 
@@ -39,34 +40,40 @@ class CMCScore:
         rank_k = rank_k[:, 1:]
 
         # map item index to target class
-        map_id_to_class = lambda x: target_label[x]
+        map_id_to_class = lambda x: target_label_x_gallery[x]
         map_id_to_class_vec = np.vectorize(map_id_to_class)
         rank_k_label = map_id_to_class_vec(rank_k.cpu())
 
         # Compute accuracy
         correct = 0
         for i, r in enumerate(rank_k_label):
-            if target_label[i] in r: correct += 1
+            if target_label_y_query[i] in r: correct += 1
 
-        accuracy = (correct * 100.0) / len(target_label)
+        accuracy = (correct * 100.0) / len(target_label_y_query)
 
         return accuracy, rank_k, rank_k_label
 
-    def score(self, pairwise_distance_matrix, target_label, k_threshold=5):
+    def score(self, pairwise_distance_matrix, target_label_x_gallery, target_label_y_query=None, k_threshold=5):
+
         """
-Computes CMC Score.
+    Computes CMC Score.
         :param pairwise_distance_matrix:Diagonal matrix with distance measure
         :param target_label: the target label ( labels must be zero indexed integers)
         :param k_threshold: max K to use for averaging
         :return:
         """
-        assert pairwise_distance_matrix.shape[0] == target_label.shape[
-            0], "The size of the target labels {} should match the length of pairwise_distance_matrix".format(
-            target_label.shape[0], pairwise_distance_matrix.shape[0])
+
+        assert pairwise_distance_matrix.shape[1] == target_label_x_gallery.shape[
+            0], "The size of the target_x labels {} should match the length of pairwise_distance_matrix {}".format(
+            target_label_x_gallery.shape[0], pairwise_distance_matrix.shape[1])
 
         total = 0.0
+        if target_label_y_query is None:
+            target_label_y_query = target_label_x_gallery
+
         for k in range(1, k_threshold + 1):
-            accuracy, _, _ = self.accuracy_at_top_k(pairwise_distance_matrix, target_label, k)
+            accuracy, _, _ = self.accuracy_at_top_k(pairwise_distance_matrix, target_label_x_gallery,
+                                                    target_label_y_query, k)
             total += accuracy
 
         return total / k_threshold
