@@ -68,8 +68,11 @@ if __name__ == '__main__':
     parser.add_argument("--modelpath",
                         help="The model path", required=True)
 
-    parser.add_argument("--rawimagesdir",
-                        help="The directory path cpontaining market dataset", required=True)
+    parser.add_argument("--galleryimagesdir",
+                        help="The directory path containing gallery dataset", required=True)
+
+    parser.add_argument("--queryimagesdir",
+                        help="The directory path containing query dir", default=None)
 
     parser.add_argument("--log-level", help="Log level", default="INFO", choices={"INFO", "WARN", "DEBUG", "ERROR"})
 
@@ -81,5 +84,5 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.getLevelName(args.log_level), handlers=[logging.StreamHandler(sys.stdout)],
                         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
-    result = PredictEvaluate()(args.dataset, args.modelpath, args.rawimagesdir)
+    result = PredictEvaluate()(args.dataset, args.modelpath, args.galleryimagesdir, args.queryimagesdir)
     print("Score is {}".format(result))
