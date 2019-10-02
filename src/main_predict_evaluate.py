@@ -26,29 +26,37 @@ from predictor import Predictor
 
 class PredictEvaluate:
 
-    def __call__(self, dataset_factory_name, model_path, rawimagesdir, eval_factory_name="EvaluationFactory"):
+    def __call__(self, dataset_factory_name, model_path, gallery_images_dir, query_images_dir=None,
+                 eval_factory_name="EvaluationFactory"):
         evalfactory = EvalutorFactoryServiceLocator().get_factory(eval_factory_name)
         evaluator = evalfactory.get_evaluator()
         datasetfactory = DatasetFactoryServiceLocator().get_factory(dataset_factory_name)
 
-        dataset = datasetfactory.get(rawimagesdir)
-        batch_size = min(len(dataset), 32)
-        dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=False)
+        class_person_gallery, embeddings_gallery = self._get_predictions(gallery_images_dir, datasetfactory, model_path)
 
+        class_person_query, embeddings_query = None, None
+        if query_images_dir is not None:
+            class_person_query, embeddings_query = self._get_predictions(query_images_dir, datasetfactory, model_path)
+
+        result = evaluator(embeddings_gallery, class_person_gallery, query_embedding=embeddings_query,
+                           query_target_class=class_person_query)
+        return result
+
+    def _get_predictions(self, rawimagesdir, datasetfactory, model_path):
+        dataset_query = datasetfactory.get(rawimagesdir)
+        batch_size = min(len(dataset_query), 32)
+        dataloader_query = DataLoader(dataset_query, batch_size=batch_size, shuffle=False)
         model = Predictor(model_path)
-
         embeddings = []
         class_person = []
-        for person_img, target in dataloader:
+        for person_img, target in dataloader_query:
             embedding = model(person_img)
             embeddings.extend(embedding)
             class_person.extend(target)
 
         embeddings = torch.stack(embeddings)
         class_person = torch.stack(class_person)
-
-        result = evaluator(embeddings, class_person)
-        return result
+        return class_person, embeddings
 
 
 if __name__ == '__main__':

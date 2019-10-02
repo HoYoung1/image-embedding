@@ -35,7 +35,24 @@ class TestSitPredictEvaluate(TestCase):
         sut = PredictEvaluate()
 
         # Act
-        result = sut(val_dataset_factory, model_path=output_dir, rawimagesdir=images_dir)
+        result = sut(val_dataset_factory, model_path=output_dir, gallery_images_dir=images_dir)
+
+        # Assert
+        self.assertIsInstance(result, float)
+
+    def test___call__query(self):
+        # Arrange
+        output_dir = tempfile.mkdtemp()
+        images_dir = os.path.join(os.path.dirname(__file__), "imagesMarket1501")
+        val_dataset_factory = "Market1501Factory"
+        train_dataset_factory = "Market1501TripletFactory"
+
+        self._run_train(images_dir, train_dataset_factory, output_dir)
+        sut = PredictEvaluate()
+
+        # Act
+        result = sut(val_dataset_factory, model_path=output_dir, gallery_images_dir=images_dir,
+                     query_images_dir=images_dir)
 
         # Assert
         self.assertIsInstance(result, float)
