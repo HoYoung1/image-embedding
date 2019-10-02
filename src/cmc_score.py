@@ -29,7 +29,7 @@ class CMCScore:
 
     def accuracy_at_top_k(self, pairwise_distance_matrix, target_label, k):
         # Set nan to zero...
-        pairwise_distance_matrix[torch.isnan(pairwise_distance_matrix)] = 0
+        # pairwise_distance_matrix[torch.isnan(pairwise_distance_matrix)] = 0
 
         target_label = target_label.cpu().numpy()
         # Get the index matrix of the top k nearest neighbours
