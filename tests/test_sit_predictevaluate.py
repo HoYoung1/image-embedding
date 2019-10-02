@@ -28,13 +28,14 @@ class TestSitPredictEvaluate(TestCase):
         # Arrange
         output_dir = tempfile.mkdtemp()
         images_dir = os.path.join(os.path.dirname(__file__), "imagesMarket1501")
-        dataset_factory = "Market1501Factory"
+        val_dataset_factory = "Market1501Factory"
+        train_dataset_factory = "Market1501TripletFactory"
 
-        self._run_train(images_dir, dataset_factory, output_dir)
+        self._run_train(images_dir, train_dataset_factory, output_dir)
         sut = PredictEvaluate()
 
         # Act
-        result = sut(dataset_factory, model_path=output_dir, rawimagesdir=images_dir)
+        result = sut(val_dataset_factory, model_path=output_dir, rawimagesdir=images_dir)
 
         # Assert
         self.assertIsInstance(result, float)
