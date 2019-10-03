@@ -22,7 +22,7 @@ from datasets.evaluation_dataset_factorybase import EvaluationDatasetFactoryBase
 
 class EvaluationDatasetFactoryServiceLocator:
     """
-    General dataset factory ServiceLocator automatically loads datasets factories that are subclasses of CustomDatasetFactoryBase
+    General dataset factory ServiceLocator automatically loads datasets factories that are subclasses of EvaluationDatasetFactoryBase
     """
 
     def __init__(self):
