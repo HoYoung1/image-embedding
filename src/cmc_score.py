@@ -12,6 +12,7 @@
 #  express or implied. See the License for the specific language governing    *
 #  permissions and limitations under the License.                             *
 # *****************************************************************************
+import logging
 
 import numpy as np
 import torch
@@ -38,6 +39,10 @@ class CMCScore(CMCScoreBase):
 
         return rank_k
 
+    @property
+    def logger(self):
+        return logging.getLogger(__name__)
+
     def accuracy_at_top_k(self, pairwise_distance_matrix, target_label_y_query, k, target_label_x_gallery=None):
         top_k = k
 
@@ -50,6 +55,9 @@ class CMCScore(CMCScoreBase):
         if target_label_x_gallery is None:
             rank_k = rank_k[:, 1:]
             target_label_x_gallery = target_label_y_query
+
+        self.logger.info("Running query images {} against gallery of size {}".format(len(target_label_y_query),
+                                                                                     len(target_label_x_gallery)))
 
         target_label_y_query = target_label_y_query.cpu().numpy()
         target_label_x_gallery = target_label_x_gallery.cpu().numpy()
