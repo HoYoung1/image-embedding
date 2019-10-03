@@ -26,23 +26,37 @@ from predictor import Predictor
 
 class PredictEvaluate:
 
-    def __call__(self, dataset_factory_name, model_path, gallery_images_dir, query_images_dir=None,
+    def __call__(self, dataset_factory_name, model_path, query_images_dir, gallery_images_dir=None,
                  eval_factory_name="EvaluationFactory"):
+        # Construct factories
         evalfactory = EvalutorFactoryServiceLocator().get_factory(eval_factory_name)
         evaluator = evalfactory.get_evaluator()
         datasetfactory = DatasetFactoryServiceLocator().get_factory(dataset_factory_name)
 
-        class_person_gallery, embeddings_gallery = self._get_predictions(gallery_images_dir, datasetfactory, model_path)
+        # get query embeddings
+        class_person_query, embeddings_query = self._get_predictions(query_images_dir, datasetfactory, model_path)
 
-        class_person_query, embeddings_query = None, None
-        if query_images_dir is not None:
-            class_person_query, embeddings_query = self._get_predictions(query_images_dir, datasetfactory, model_path)
+        # Get gallery embeddings
+        class_person_gallery, embeddings_gallery = None, None
+        if gallery_images_dir is not None:
+            class_person_gallery, embeddings_gallery = self._get_predictions(gallery_images_dir, datasetfactory,
+                                                                             model_path)
 
-        result = evaluator(embeddings_gallery, class_person_gallery, query_embedding=embeddings_query,
-                           query_target_class=class_person_query)
+        # Evaluate
+        result = evaluator(query_embedding=embeddings_query,
+                           query_target_class=class_person_query,
+                           gallery_embedding=embeddings_gallery,
+                           gallery_target_class=class_person_gallery)
         return result
 
     def _get_predictions(self, rawimagesdir, datasetfactory, model_path):
+        """
+        Returns predictions for the raw images in directory rawimagesdir using model in model_path
+        :param rawimagesdir: Images directory
+        :param datasetfactory: Dataset factory to load images
+        :param model_path: Model path to use for predictions
+        :return:
+        """
         dataset_query = datasetfactory.get(rawimagesdir)
         batch_size = min(len(dataset_query), 32)
         dataloader_query = DataLoader(dataset_query, batch_size=batch_size, shuffle=False)
@@ -65,14 +79,15 @@ if __name__ == '__main__':
     parser.add_argument("--dataset",
                         help="The type of dataset",
                         choices=DatasetFactoryServiceLocator().factory_names, required=True)
+
     parser.add_argument("--modelpath",
                         help="The model path", required=True)
 
-    parser.add_argument("--galleryimagesdir",
-                        help="The directory path containing gallery dataset", required=True)
-
     parser.add_argument("--queryimagesdir",
-                        help="The directory path containing query dir", default=None)
+                        help="The directory path containing query dir", required=True)
+
+    parser.add_argument("--galleryimagesdir",
+                        help="The directory path containing gallery dataset", default=None)
 
     parser.add_argument("--log-level", help="Log level", default="INFO", choices={"INFO", "WARN", "DEBUG", "ERROR"})
 
@@ -84,5 +99,5 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.getLevelName(args.log_level), handlers=[logging.StreamHandler(sys.stdout)],
                         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
-    result = PredictEvaluate()(args.dataset, args.modelpath, args.galleryimagesdir, args.queryimagesdir)
+    result = PredictEvaluate()(args.dataset, args.modelpath, args.queryimagesdir, args.galleryimagesdir)
     print("Score is {}".format(result))

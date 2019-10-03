@@ -28,14 +28,14 @@ class TestSitPredictEvaluate(TestCase):
         # Arrange
         output_dir = tempfile.mkdtemp()
         images_dir = os.path.join(os.path.dirname(__file__), "imagesMarket1501")
-        val_dataset_factory = "Market1501Factory"
+        eval_dataset_factory = "Market1501Factory"
         train_dataset_factory = "Market1501TripletFactory"
 
         self._run_train(images_dir, train_dataset_factory, output_dir)
         sut = PredictEvaluate()
 
         # Act
-        result = sut(val_dataset_factory, model_path=output_dir, gallery_images_dir=images_dir)
+        result = sut(eval_dataset_factory, model_path=output_dir, query_images_dir=images_dir)
 
         # Assert
         self.assertIsInstance(result, float)
@@ -43,16 +43,19 @@ class TestSitPredictEvaluate(TestCase):
     def test___call__query(self):
         # Arrange
         output_dir = tempfile.mkdtemp()
-        images_dir = os.path.join(os.path.dirname(__file__), "imagesMarket1501")
-        val_dataset_factory = "Market1501Factory"
+        train_images_dir = os.path.join(os.path.dirname(__file__), "imagesMarket1501")
+        query_images_dir = os.path.join(os.path.dirname(__file__), "imagesMarket1501", "query")
+        gallery_images_dir = train_images_dir
+
+        eval_dataset_factory = "Market1501Factory"
         train_dataset_factory = "Market1501TripletFactory"
 
-        self._run_train(images_dir, train_dataset_factory, output_dir)
+        self._run_train(train_images_dir, train_dataset_factory, output_dir)
         sut = PredictEvaluate()
 
         # Act
-        result = sut(val_dataset_factory, model_path=output_dir, gallery_images_dir=images_dir,
-                     query_images_dir=images_dir)
+        result = sut(eval_dataset_factory, model_path=output_dir, gallery_images_dir=gallery_images_dir,
+                     query_images_dir=query_images_dir)
 
         # Assert
         self.assertIsInstance(result, float)

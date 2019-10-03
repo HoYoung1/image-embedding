@@ -38,18 +38,18 @@ class CMCScore(CMCScoreBase):
 
         return rank_k
 
-    def accuracy_at_top_k(self, pairwise_distance_matrix, target_label_x_gallery, target_label_y_query, k):
+    def accuracy_at_top_k(self, pairwise_distance_matrix, target_label_y_query, k, target_label_x_gallery=None):
         top_k = k
 
         # Ignore rank 0, as they are the same elements ( diagonal), so add 1 to k
-        if target_label_y_query is None:
+        if target_label_x_gallery is None:
             top_k += 1
         rank_k = self.get_top_k(pairwise_distance_matrix, top_k)
 
         # Ignore rank 0, as they are the same elements ( diagonal)
-        if target_label_y_query is None:
+        if target_label_x_gallery is None:
             rank_k = rank_k[:, 1:]
-            target_label_y_query = target_label_x_gallery
+            target_label_x_gallery = target_label_y_query
 
         target_label_y_query = target_label_y_query.cpu().numpy()
         target_label_x_gallery = target_label_x_gallery.cpu().numpy()
@@ -57,18 +57,18 @@ class CMCScore(CMCScoreBase):
         # map item index to target class
         map_id_to_class = lambda x: target_label_x_gallery[x]
         map_id_to_class_vec = np.vectorize(map_id_to_class)
-        rank_k_label = map_id_to_class_vec(rank_k.cpu())
+        rank_k_label_x_gallery = map_id_to_class_vec(rank_k.cpu())
 
         # Compute accuracy
         correct = 0
-        for i, r in enumerate(rank_k_label):
+        for i, r in enumerate(rank_k_label_x_gallery):
             if target_label_y_query[i] in r: correct += 1
 
         accuracy = (correct * 100.0) / len(target_label_y_query)
 
-        return accuracy, rank_k, rank_k_label
+        return accuracy, rank_k, rank_k_label_x_gallery
 
-    def score(self, pairwise_distance_matrix, target_label_x_gallery, target_label_y_query=None, k_threshold=5):
+    def score(self, pairwise_distance_matrix, target_label_y_query, target_label_x_gallery=None, k_threshold=5):
 
         """
     Computes CMC Score.
@@ -79,20 +79,19 @@ class CMCScore(CMCScoreBase):
         :param k_threshold: max K to use for averaging
         :return:
         """
+        assert pairwise_distance_matrix.shape[0] == target_label_y_query.shape[
+            0], "The size of the target_y_query labels {} should match the length of pairwise_distance_matrix {}".format(
+            target_label_y_query.shape[0], pairwise_distance_matrix.shape[0])
 
-        assert pairwise_distance_matrix.shape[1] == target_label_x_gallery.shape[
-            0], "The size of the target_x_gallery labels {} should match the length of pairwise_distance_matrix {}".format(
-            target_label_x_gallery.shape[0], pairwise_distance_matrix.shape[1])
-
-        if target_label_y_query is not None:
-            assert pairwise_distance_matrix.shape[0] == target_label_y_query.shape[
-                0], "The size of the target_y_query labels {} should match the length of pairwise_distance_matrix {}".format(
-                target_label_y_query.shape[0], pairwise_distance_matrix.shape[0])
+        if target_label_x_gallery is not None:
+            assert pairwise_distance_matrix.shape[1] == target_label_x_gallery.shape[
+                0], "The size of the target_x_gallery labels {} should match the length of pairwise_distance_matrix {}".format(
+                target_label_x_gallery.shape[0], pairwise_distance_matrix.shape[1])
 
         total = 0.0
         for k in range(1, k_threshold + 1):
-            accuracy, _, _ = self.accuracy_at_top_k(pairwise_distance_matrix, target_label_x_gallery,
-                                                    target_label_y_query, k)
+            accuracy, _, _ = self.accuracy_at_top_k(pairwise_distance_matrix, target_label_y_query,
+                                                    k, target_label_x_gallery)
             total += accuracy
 
         return total / k_threshold

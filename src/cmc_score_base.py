@@ -24,7 +24,7 @@ class CMCScoreBase:
     - CMC Curve: Rank based metric
     """
 
-    def score(self, pairwise_distance_matrix, target_label_x_gallery, target_label_y_query=None, k_threshold=5):
+    def score(self, pairwise_distance_matrix, target_label_y_query, target_label_x_gallery=None, k_threshold=5):
         raise NotImplementedError
 
     def get_top_k(self, pairwise_distance_matrix, k_threshold=5):
