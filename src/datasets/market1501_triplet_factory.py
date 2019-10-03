@@ -1,9 +1,9 @@
-from datasets.custom_dataset_factorybase import CustomDatasetFactoryBase
 from datasets.market1501_triplet_dataset import Market1501TripletDataset
+from datasets.triplet_dataset_factorybase import TripletDatasetFactoryBase
 from image_preprocessor import ImagePreprocessor
 
 
-class Market1501TripletFactory(CustomDatasetFactoryBase):
+class Market1501TripletFactory(TripletDatasetFactoryBase):
 
     def __init__(self):
         pass

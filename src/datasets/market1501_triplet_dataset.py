@@ -2,10 +2,10 @@ import logging
 import os
 import random
 
-from datasets.custom_datasetbase import CustomDatasetBase
+from datasets.triplet_datasetbase import TripletDatasetBase
 
 
-class Market1501TripletDataset(CustomDatasetBase):
+class Market1501TripletDataset(TripletDatasetBase):
     """
     Returns 3 stream triplets
     """

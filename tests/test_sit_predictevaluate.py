@@ -17,9 +17,9 @@ import os
 import tempfile
 from unittest import TestCase
 
-from dataset_factory_service_locator import DatasetFactoryServiceLocator
 from main_predict_evaluate import PredictEvaluate
 from train_factory import TrainFactory
+from triplet_dataset_factory_service_locator import TripletDatasetFactoryServiceLocator
 
 
 class TestSitPredictEvaluate(TestCase):
@@ -58,7 +58,7 @@ class TestSitPredictEvaluate(TestCase):
         self.assertIsInstance(result, float)
 
     def _run_train(self, images_dir, dataset_factory, output_dir):
-        dataset_factory = DatasetFactoryServiceLocator().get_factory(dataset_factory)
+        dataset_factory = TripletDatasetFactoryServiceLocator().get_factory(dataset_factory)
         dataset = dataset_factory.get(images_dir)
 
         factory = TrainFactory(num_workers=1, epochs=2, batch_size=6, early_stopping=True, patience_epochs=2)

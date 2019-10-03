@@ -2,8 +2,8 @@ import os
 import tempfile
 from unittest import TestCase
 
-from dataset_factory_service_locator import DatasetFactoryServiceLocator
 from train_factory import TrainFactory
+from triplet_dataset_factory_service_locator import TripletDatasetFactoryServiceLocator
 
 
 class TestSitTrainMarket1501(TestCase):
@@ -12,7 +12,7 @@ class TestSitTrainMarket1501(TestCase):
         # Arrange
         img_dir = os.path.join(os.path.dirname(__file__), "imagesMarket1501")
         # get dataset
-        dataset_factory = DatasetFactoryServiceLocator().get_factory("Market1501TripletFactory")
+        dataset_factory = TripletDatasetFactoryServiceLocator().get_factory("Market1501TripletFactory")
         dataset = dataset_factory.get(img_dir)
 
         # get train factory
