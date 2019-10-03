@@ -14,7 +14,7 @@
 # ***************************************************************
 from unittest import TestCase
 
-from datasets.custom_dataset_factorybase import CustomDatasetFactoryBase
+from datasets.evaluation_dataset_factorybase import EvaluationDatasetFactoryBase
 from evaluator_factory_service_locator import EvalutorFactoryServiceLocator
 from evaluators.evaluator_factory_base import EvaluatorFactoryBase
 
@@ -31,7 +31,7 @@ class TestSitEvaluatorFactoryServiceLocator(TestCase):
         # assert
         self.assertEqual(len(class_names), 1,
                          " The number of expected dataset factory classes doesnt match.. Check the number of classes that inhert from {}  !".format(
-                             type(CustomDatasetFactoryBase)))
+                             type(EvaluationDatasetFactoryBase)))
 
     def test_get_factory(self):
         # Arrange

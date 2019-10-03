@@ -12,10 +12,10 @@
 #  express or implied. See the License for the specific language governing
 #  permissions and limitations under the License.
 # ***************************************************************
-class CustomDatasetFactoryBase:
+class EvaluationDatasetFactoryBase:
     """
-    This is the base class for a custom dataset factory
+    This is the base class for a evaluator dataset factory
     """
 
-    def get(self, images_dir):
+    def get(self, query_images, gallery_images=None):
         raise NotImplementedError

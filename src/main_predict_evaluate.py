@@ -19,7 +19,7 @@ import sys
 import torch
 from torch.utils.data import DataLoader
 
-from dataset_factory_service_locator import DatasetFactoryServiceLocator
+from evaluation_dataset_factory_service_locator import EvaluationDatasetFactoryServiceLocator
 from evaluator_factory_service_locator import EvalutorFactoryServiceLocator
 from predictor import Predictor
 
@@ -31,16 +31,15 @@ class PredictEvaluate:
         # Construct factories
         evalfactory = EvalutorFactoryServiceLocator().get_factory(eval_factory_name)
         evaluator = evalfactory.get_evaluator()
-        datasetfactory = DatasetFactoryServiceLocator().get_factory(dataset_factory_name)
+        datasetfactory = EvaluationDatasetFactoryServiceLocator().get_factory(dataset_factory_name)
+
+        query_dataset, gallery_dataset = datasetfactory.get(query_images_dir, gallery_images_dir)
 
         # get query embeddings
-        class_person_query, embeddings_query = self._get_predictions(query_images_dir, datasetfactory, model_path)
+        class_person_query, embeddings_query = self._get_predictions(query_dataset, model_path)
 
         # Get gallery embeddings
-        class_person_gallery, embeddings_gallery = None, None
-        if gallery_images_dir is not None:
-            class_person_gallery, embeddings_gallery = self._get_predictions(gallery_images_dir, datasetfactory,
-                                                                             model_path)
+        class_person_gallery, embeddings_gallery = self._get_predictions(gallery_dataset, model_path)
 
         # Evaluate
         result = evaluator(query_embedding=embeddings_query,
@@ -49,17 +48,15 @@ class PredictEvaluate:
                            gallery_target_class=class_person_gallery)
         return result
 
-    def _get_predictions(self, rawimagesdir, datasetfactory, model_path):
+    def _get_predictions(self, dataset, model_path):
         """
-        Returns predictions for the raw images in directory rawimagesdir using model in model_path
-        :param rawimagesdir: Images directory
-        :param datasetfactory: Dataset factory to load images
+        Returns predictions for the dataset
+        :param dataset: Dataset
         :param model_path: Model path to use for predictions
         :return:
         """
-        dataset_query = datasetfactory.get(rawimagesdir)
-        batch_size = min(len(dataset_query), 32)
-        dataloader_query = DataLoader(dataset_query, batch_size=batch_size, shuffle=False)
+        batch_size = min(len(dataset), 32)
+        dataloader_query = DataLoader(dataset, batch_size=batch_size, shuffle=False)
         model = Predictor(model_path)
         embeddings = []
         class_person = []
@@ -78,7 +75,7 @@ if __name__ == '__main__':
 
     parser.add_argument("--dataset",
                         help="The type of dataset",
-                        choices=DatasetFactoryServiceLocator().factory_names, required=True)
+                        choices=EvaluationDatasetFactoryServiceLocator().factory_names, required=True)
 
     parser.add_argument("--modelpath",
                         help="The model path", required=True)

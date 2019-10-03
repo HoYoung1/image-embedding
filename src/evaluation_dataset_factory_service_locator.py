@@ -17,10 +17,10 @@ import importlib
 import os
 import pkgutil
 
-from datasets.custom_dataset_factorybase import CustomDatasetFactoryBase
+from datasets.evaluation_dataset_factorybase import EvaluationDatasetFactoryBase
 
 
-class DatasetFactoryServiceLocator:
+class EvaluationDatasetFactoryServiceLocator:
     """
     General dataset factory ServiceLocator automatically loads datasets factories that are subclasses of CustomDatasetFactoryBase
     """
@@ -28,7 +28,7 @@ class DatasetFactoryServiceLocator:
     def __init__(self):
         # Expect the datset factory is under datasets path under the parent of the __file__
         datasets_base_dir = "datasets"
-        base_class = CustomDatasetFactoryBase
+        base_class = EvaluationDatasetFactoryBase
 
         # search path
         search_path = os.path.join(os.path.dirname(__file__), datasets_base_dir)

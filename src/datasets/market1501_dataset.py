@@ -6,16 +6,22 @@ from PIL import Image
 from skimage import io
 from torchvision.transforms import transforms
 
-from datasets.custom_datasetbase import CustomDatasetBase
+from datasets.evaluation_datasetbase import EvaluationDatasetBase
 
 
-class Market1501Dataset(CustomDatasetBase):
+class Market1501Dataset(EvaluationDatasetBase):
 
     @property
     def num_classes(self):
         return len(self._zero_indexed_labels)
 
-    def __init__(self, raw_directory, min_img_size_h=256, min_img_size_w=128):
+    @property
+    def label_number_map(self):
+        return self._zero_indexed_labels
+
+    def __init__(self, raw_directory, min_img_size_h=256, min_img_size_w=128, initial_label_map=None):
+        self._initial_label_map = initial_label_map or {}
+
         self.min_img_size_w = min_img_size_w
         self.min_img_size_h = min_img_size_h
         self.raw_directory = raw_directory
@@ -27,7 +33,7 @@ class Market1501Dataset(CustomDatasetBase):
 
         # The market 1501 dataset files have the naming convention target_camerasite_..., e.g. 1038_c2s2_131202_03.jpeg
         self._target_raw_labels = [os.path.basename(f).split("_")[0] for f in self._files]
-        self._zero_indexed_labels = {}
+        self._zero_indexed_labels = self._initial_label_map
         for rc in self._target_raw_labels:
             self._zero_indexed_labels[rc] = self._zero_indexed_labels.get(rc, len(self._zero_indexed_labels))
 
